@@ -90,7 +90,10 @@ a { color: inherit; }
 .masthead::after {
   content: "";
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(8,7,6,.30) 0%, rgba(8,7,6,0) 24%, rgba(8,7,6,.55) 60%, rgba(8,7,6,.90) 100%);
+  /* 轻压暗：只在文字周围留一个柔和的暗兜，画面其余部分基本提亮 */
+  background:
+    radial-gradient(72% 130% at 24% 80%, rgba(8,7,6,.66), rgba(8,7,6,.22) 52%, rgba(8,7,6,0) 72%),
+    linear-gradient(180deg, rgba(8,7,6,.06) 0%, rgba(8,7,6,0) 22%, rgba(8,7,6,.08) 62%, rgba(8,7,6,.30) 100%);
   pointer-events: none;
 }
 .masthead-text {
@@ -106,7 +109,7 @@ a { color: inherit; }
   letter-spacing: .01em;
   margin: 0 0 .8rem;
   color: #fbf8f1;
-  text-shadow: 0 2px 30px rgba(0,0,0,.5);
+  text-shadow: 0 1px 2px rgba(0,0,0,.6), 0 2px 14px rgba(0,0,0,.5);
 }
 .masthead .kicker { color: rgba(250,246,238,.86); }
 .masthead-text .lede {
