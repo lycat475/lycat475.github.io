@@ -390,3 +390,6 @@ body {
   .strip-inner { gap: 1.2rem; }
 }
 .plate img { height: auto; }
+.foot-links { display: flex; gap: 1.1rem; align-items: baseline; }
+.foot-links a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid transparent; }
+.foot-links a:hover { color: var(--accent); border-bottom-color: var(--accent); }

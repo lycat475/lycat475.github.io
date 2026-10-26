@@ -51,3 +51,10 @@ collections:
           - { name: date, label: 日期, widget: datetime, required: false }
           - { name: wide, label: 宽版布局, widget: boolean, default: true }
           - { name: body, label: 说明, widget: markdown, required: false }
+
+      - name: ai
+        label: AI 说明
+        file: content/ai/index.md
+        fields:
+          - { name: title, label: 标题 }
+          - { name: body, label: 正文, widget: markdown }
