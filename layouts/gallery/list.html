@@ -6,15 +6,15 @@
 
 {{ $imgs := .Resources.ByType "image" }}
 {{ if $imgs }}
-<div class="gallery">
-  {{ range $imgs }}
-    {{ partial "figure.html" (dict "res" . "alt" .Title) }}
+<div class="plates">
+  {{ range $i, $img := $imgs }}
+    {{ partial "figure.html" (dict "res" $img "n" $i) }}
   {{ end }}
 </div>
 {{ else }}
 <div class="slot-empty">
   <div class="slot slot-lg" aria-hidden="true">ly</div>
-  <p class="muted">还没有照片。把 jpg 放进 content/gallery/ 就会出现在这里。</p>
+  <p class="muted">这里还是空的。</p>
 </div>
 {{ end }}
 {{ end }}

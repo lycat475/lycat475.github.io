@@ -1,13 +1,16 @@
 {{ $r := .res }}
-{{ $small := $r.Resize "640x webp q82" }}
-{{ $large := $r.Resize "1440x webp q82" }}
-{{ $alt := "" }}{{ with .alt }}{{ $alt = . }}{{ end }}
-<figure class="shot">
+{{ $n := .n }}
+{{ $small := $r.Resize "560x webp q80" }}
+{{ $large := $r.Resize "1200x webp q80" }}
+<figure class="plate">
   <img
     src="{{ $large.RelPermalink }}"
-    srcset="{{ $small.RelPermalink }} 640w, {{ $large.RelPermalink }} 1440w"
-    sizes="(max-width: 720px) 92vw, 420px"
-    alt="{{ $alt }}"
+    srcset="{{ $small.RelPermalink }} 560w, {{ $large.RelPermalink }} 1200w"
+    sizes="(max-width: 720px) 46vw, 360px"
+    alt=""
     width="{{ $large.Width }}" height="{{ $large.Height }}"
     loading="lazy" decoding="async">
+  <figcaption>
+    <span class="plate-no">{{ printf "%02d" (add $n 1) }}</span>
+  </figcaption>
 </figure>
