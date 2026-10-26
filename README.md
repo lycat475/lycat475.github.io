@@ -29,7 +29,7 @@ HUGO_CACHEDIR=$PWD/.hugo_cache ../tools/hugo/hugo.exe server --port 1313 --disab
 
 ## 相册
 
-素材放在 `~/Desktop/博客/相册/`，由 AI 挑图后导入。导入时统一处理：
+素材放在本机的素材目录，挑图后导入。导入时统一处理：
 
 - 长边缩到 2000px
 - 转正 EXIF 方向后**整块剥掉 EXIF**（GPS / 设备 / 时间不进仓库，也不上网）

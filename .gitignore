@@ -4,3 +4,17 @@ resources/_gen/
 tools/
 *.zip
 .DS_Store
+
+# 原片永不入库（防 EXIF/GPS 泄露、防仓库膨胀）
+*.dng
+*.DNG
+*.raw
+*.RAW
+*.arw
+*.ARW
+*.cr2
+*.CR2
+*.nef
+*.NEF
+*.heic
+*.HEIC
