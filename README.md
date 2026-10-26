@@ -29,11 +29,17 @@ HUGO_CACHEDIR=$PWD/.hugo_cache ../tools/hugo/hugo.exe server --port 1313 --disab
 
 ## 相册
 
-1. 从 Lightroom 导出 JPEG（长边 1600–2000、质量 80 左右）到 `content/gallery/`
-2. 删掉 `sample-01.jpg` / `sample-02.jpg`
-3. 构建时 `layouts/partials/figure.html` 会自动转 WebP、生成 640 / 1440 两档、丢掉 EXIF
+素材放在 `~/Desktop/博客/相册/`，由 AI 挑图后导入。导入时统一处理：
+
+- 长边缩到 2000px
+- 转正 EXIF 方向后**整块剥掉 EXIF**（GPS / 设备 / 时间不进仓库，也不上网）
+- 质量 88、渐进式，单张 150–1100KB
+
+构建时 `layouts/partials/figure.html` 再转 WebP、生成 640 / 1440 两档、输出 srcset。
 
 **别把原片放进仓库。** DNG 单张几十 MB，`.gitignore` 挡得住新文件，挡不住历史膨胀。
+
+当前 12 张：`01-dusk-ridge` … `12-swans`，顺序由文件名决定，想调顺序就改前缀数字。
 
 ## 部署（Cloudflare Pages）
 
