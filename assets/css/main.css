@@ -92,8 +92,9 @@ a { color: inherit; }
 .masthead::after {
   content: "";
   position: absolute; inset: 0;
-  /* 轻压暗：只在文字周围留一个柔和的暗兜，画面其余部分基本提亮 */
+  /* 三层：轻暗角 → 文字处的柔和暗兜 → 底部保底 */
   background:
+    radial-gradient(130% 118% at 50% 42%, rgba(8,7,6,0) 44%, rgba(8,7,6,.22) 100%),
     radial-gradient(72% 130% at 24% 80%, rgba(8,7,6,.66), rgba(8,7,6,.22) 52%, rgba(8,7,6,0) 72%),
     linear-gradient(180deg, rgba(8,7,6,.06) 0%, rgba(8,7,6,0) 22%, rgba(8,7,6,.08) 62%, rgba(8,7,6,.30) 100%);
   pointer-events: none;
