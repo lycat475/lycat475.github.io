@@ -436,3 +436,17 @@ body {
 }
 .btn:hover { border-color: var(--accent); color: var(--accent); }
 .holding .muted { max-width: 26rem; line-height: 2; }
+
+/* --- 字体统一 --- */
+:root {
+  --mono: "JetBrains Mono", "Cascadia Mono", Consolas, "PingFang SC", "Microsoft YaHei", monospace;
+}
+/* 站点名：页头页脚同一字体 */
+.site-foot > span:first-child { font-family: var(--serif); letter-spacing: .04em; color: var(--ink); }
+/* 维护页：标题与说明同一字体 */
+.holding .muted {
+  font-family: var(--serif);
+  font-size: .82rem;
+  letter-spacing: .06em;
+  color: var(--ink-soft);
+}
