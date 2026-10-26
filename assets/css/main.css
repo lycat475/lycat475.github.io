@@ -1,3 +1,25 @@
+/* ---------- 自托管字体（子集见 static/fonts，生成脚本见 README） ---------- */
+@font-face {
+  font-family: "JBMono";
+  src: url("/fonts/jetbrains-mono-400.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "JBMono";
+  src: url("/fonts/jetbrains-mono-600.woff2") format("woff2");
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "NotoSansSC";
+  src: url("/fonts/noto-sans-sc-400.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "MeowRounded";
+  src: url("/fonts/rhr-meow-400.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+
 /* lycat475 — 文献极简（A 密度）+ 摄影画廊（E 密度），一套字体、一套间距 */
 
 :root {
@@ -10,10 +32,9 @@
   --rule-soft: #efe6d7;
   --accent: #a13c2c;
 
-  --latin-serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia;
-  --cjk-serif: "Source Han Serif SC", "Noto Serif SC", "Songti SC", STSong, SimSun;
-  --serif: var(--latin-serif), var(--cjk-serif), serif;
-  --mono: "JetBrains Mono", "Cascadia Mono", Consolas, "Courier New", monospace;
+  --serif: "JBMono", "NotoSansSC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --mono: "JBMono", "NotoSansSC", "PingFang SC", "Microsoft YaHei", monospace;
+  --meow: "MeowRounded", "NotoSansSC", sans-serif;
 
   --page: 40rem;    /* 文字页 */
   --wide: 62rem;    /* 首页 / 相册 */
@@ -117,7 +138,7 @@ a { color: inherit; }
 .masthead .kicker { color: rgba(250,246,238,.86); }
 .masthead-text .lede {
   color: rgba(250,246,238,.97);
-  max-width: 26rem;
+  max-width: 34rem;
   text-shadow: 0 1px 2px rgba(0,0,0,.55), 0 2px 22px rgba(0,0,0,.45);
 }
 .masthead-text .stats {
@@ -425,4 +446,10 @@ a { color: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
+}
+
+/* ---------- 喵句：只有站点界面里那 5 处用 ---------- */
+.meow {
+  font-family: var(--meow);
+  letter-spacing: .02em;
 }
