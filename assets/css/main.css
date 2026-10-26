@@ -393,3 +393,26 @@ body {
 .foot-links { display: flex; gap: 1.1rem; align-items: baseline; }
 .foot-links a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid transparent; }
 .foot-links a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* --- 归档与文章页补充 --- */
+.archive { list-style: none; margin: 0; padding: 0; }
+.archive-row {
+  display: grid; grid-template-columns: 3.4rem 1fr; gap: 1rem;
+  padding: .9rem 0; border-bottom: 1px solid var(--rule);
+}
+.archive-row:last-child { border-bottom: 0; }
+.archive-row time { font-family: var(--mono); font-size: .68rem; letter-spacing: .08em; color: var(--ink-soft); padding-top: .2rem; }
+.archive-title { color: var(--ink); text-decoration: none; font-size: 1.02rem; }
+.archive-title:hover { color: var(--accent); }
+.archive-sum { margin: .3rem 0 0; color: var(--ink-soft); font-size: .86rem; line-height: 1.65; }
+
+.meta-sep { opacity: .4; margin: 0 .1rem; }
+
+.post-nav {
+  display: flex; gap: 2rem; justify-content: space-between;
+  margin-top: 3rem; padding-top: 1.4rem; border-top: 1px solid var(--rule);
+}
+.post-nav a { display: flex; flex-direction: column; gap: .3rem; color: var(--ink); text-decoration: none; max-width: 45%; }
+.post-nav a:hover { color: var(--accent); }
+.post-nav .muted { font-family: var(--mono); font-size: .64rem; letter-spacing: .1em; }
+.post-nav-next { text-align: right; margin-left: auto; }

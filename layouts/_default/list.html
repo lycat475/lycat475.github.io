@@ -8,11 +8,14 @@
 {{ range $paginator.Pages.GroupByDate "2006" }}
 <section class="year">
   <h2 class="year-label">{{ .Key }}</h2>
-  <ul class="entries">
+  <ul class="archive">
     {{ range .Pages }}
-      <li class="entry">
+      <li class="archive-row">
         <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "01.02" }}</time>
-        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        <div>
+          <a class="archive-title" href="{{ .RelPermalink }}">{{ .Title }}</a>
+          {{ with .Summary }}<p class="archive-sum">{{ . | plainify | truncate 90 }}</p>{{ end }}
+        </div>
       </li>
     {{ end }}
   </ul>

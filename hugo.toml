@@ -27,7 +27,7 @@ disableKinds = ['taxonomy', 'term']
   lineNos = false
 
 [[menus.main]]
-  name = '文章'
+  name = '归档'
   pageRef = '/posts'
   weight = 10
 [[menus.main]]

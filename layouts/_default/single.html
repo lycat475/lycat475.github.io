@@ -1,10 +1,13 @@
 {{ define "main" }}
+{{ $chars := .Content | plainify | countrunes }}
 <article class="post">
   <header class="post-head">
     <h1>{{ .Title }}</h1>
     {{ if not .Date.IsZero }}
     <p class="meta">
-      {{ .Date.Format "2006.01.02" }}{{ with .Params.tags }} · {{ delimit . " / " }}{{ end }}
+      {{ .Date.Format "2006.01.02" }}
+      {{ with .Params.tags }} · {{ delimit . " / " }}{{ end }}
+      <span class="meta-sep">/</span> {{ $chars }} 字 · {{ div (add $chars 399) 400 }} 分钟
     </p>
     {{ end }}
   </header>
@@ -13,4 +16,11 @@
   </div>
   {{ if eq .Section "posts" }}{{ partial "sign.html" . }}{{ end }}
 </article>
+
+{{ if and (eq .Section "posts") (or .PrevInSection .NextInSection) }}
+<nav class="post-nav">
+  {{ with .PrevInSection }}<a href="{{ .RelPermalink }}"><span class="muted">← 上一篇</span><span>{{ .Title }}</span></a>{{ end }}
+  {{ with .NextInSection }}<a class="post-nav-next" href="{{ .RelPermalink }}"><span class="muted">下一篇 →</span><span>{{ .Title }}</span></a>{{ end }}
+</nav>
+{{ end }}
 {{ end }}
