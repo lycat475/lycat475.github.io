@@ -1,5 +1,5 @@
 baseURL = 'https://lycat475-github-io.pages.dev/'
-title = 'lycat475'
+title = 'lycat-build with 475'
 defaultContentLanguage = 'zh'
 disableKinds = ['taxonomy', 'term']
 
@@ -12,11 +12,11 @@ disableKinds = ['taxonomy', 'term']
   pagerSize = 20
 
 [params]
-  name = 'lycat475'
-  h1 = '在学 Web 安全。'
-  intro = '这里放我自己写的东西：学到哪、做过什么。'
+  name = 'lycat 的blog'
+  h1 = 'LYCAT475'
+  intro = 'A new CTFer && a photography enthusiast'
   author = 'lycat475'
-  signNote = '写于 lycat475'
+  signNote = 'by lycat475'
 
   # 上线开关：true 时全站只显示「准备中」页面
   holding = true

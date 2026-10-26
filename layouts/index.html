@@ -12,7 +12,7 @@
       fetchpriority="high" decoding="async">
     <div class="masthead-text">
       <div class="wrap">
-        <span class="kicker">笔记 · 2026</span>
+        <span class="kicker">RECORDS</span>
         <h1>{{ site.Params.h1 }}</h1>
         <p class="lede">{{ site.Params.intro }}</p>
       </div>
@@ -34,8 +34,8 @@
 <section class="strip">
   <div class="wrap strip-inner">
     <span class="strip-item"><span class="strip-num">{{ printf "%02d" (len $posts) }}</span> 篇文章</span>
-    <span class="strip-item"><span class="strip-num">{{ printf "%02d" $figs }}</span> 张图版</span>
-    <span class="strip-item strip-right">二〇二六</span>
+    <span class="strip-item"><span class="strip-num">{{ printf "%02d" $figs }}</span> 张</span>
+    
   </div>
 </section>
 
@@ -49,15 +49,15 @@
         <a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a>
       </li>
     {{ else }}
-      <li class="index-row"><span class="index-no">—</span><span></span><span class="muted">还没有文章。</span></li>
+      <li class="index-row"><span class="index-no">—</span><span></span><span class="muted">空空如也喵</span></li>
     {{ end }}
   </ol>
 </section>
 
 <section class="block">
-  <h2 class="section-label">图版</h2>
+  <h2 class="section-label">画廊</h2>
   <p class="gallery-link">
-    <a href="{{ "/gallery/" | relURL }}">翻看全部 {{ $figs }} 张</a>
+    <a href="{{ "/gallery/" | relURL }}">查看</a>
   </p>
 </section>
 {{ end }}

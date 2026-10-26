@@ -7,7 +7,7 @@
     <p class="meta">
       {{ .Date.Format "2006.01.02" }}
       {{ with .Params.tags }} · {{ delimit . " / " }}{{ end }}
-      <span class="meta-sep">/</span> {{ $chars }} 字 · {{ div (add $chars 399) 400 }} 分钟
+      <span class="meta-sep">/</span> {{ $chars }} 字
     </p>
     {{ end }}
   </header>

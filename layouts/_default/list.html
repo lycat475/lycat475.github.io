@@ -24,9 +24,9 @@
 
 {{ if gt $paginator.TotalPages 1 }}
 <nav class="pager">
-  {{ with $paginator.Prev }}<a href="{{ .URL }}">← 新一点</a>{{ end }}
+  {{ with $paginator.Prev }}<a href="{{ .URL }}">← 新一点的</a>{{ end }}
   <span class="muted">{{ $paginator.PageNumber }} / {{ $paginator.TotalPages }}</span>
-  {{ with $paginator.Next }}<a href="{{ .URL }}">旧一点 →</a>{{ end }}
+  {{ with $paginator.Next }}<a href="{{ .URL }}">旧一点的 →</a>{{ end }}
 </nav>
 {{ end }}
 {{ end }}
