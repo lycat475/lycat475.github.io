@@ -68,26 +68,27 @@ HUGO_CACHEDIR=$PWD/.hugo_cache ../tools/hugo/hugo.exe server --port 1313 --disab
 2. Cloudflare Dashboard → Workers & Pages → Create → Pages → Connect to Git
 3. 构建设置：
    - Framework preset：**Hugo**
-   - Build command：`hugo --minify`
+   - Build command：`hugo`（**不要**加 `--minify`，理由见下）
    - Build output directory：`public`
    - 环境变量：`HUGO_VERSION = 0.168.0`
 4. 部署完拿到 `*.pages.dev` 地址，把 `hugo.toml` 里的 `baseURL` 改成它，再推一次
+
+> **为什么不用 `--minify`**：实测每个页面 gzip 后只省约 100 字节，而压缩后的 HTML 是一整行、没法排查问题。CSS 仍会在构建时被 Pipes 压掉（`resources.Get "css/main.css" | minify | fingerprint`），这一层保留。
 
 ## 占位与待办
 
 - **形象图**：favicon、404、文章末尾的签名位现在都是「圆环 + ly」占位。图到位后替换 `.slot` 里的内容，尺寸别动。
 - **衬线字体**：现在用系统栈（`Songti SC` / `SimSun`），Windows 和 mac 渲染不同。要统一需自托管思源宋体子集（约 1–2MB），定稿阶段再决定。
-- **相册样例图**：`content/gallery/sample-0*.jpg` 是占位，去掉前别公开。
 
-## 五个 2 小时的块
+## 进度
 
 | 块 | 做什么 | 状态 |
 |---|---|---|
 | 1 | 骨架 + 本地跑通 | ✅ |
 | 2 | 关于页 + 首页文案 | 待你写 |
-| 3 | hello world 正文 + 404 定稿 | 待你写 |
-| 4 | 相册：12 张照片 | 待你导 |
-| 5 | 归档分页 + 字体 + 公开 | 部分已做 |
+| 3 | hello world 正文 | 待你写 |
+| 4 | 相册：12 张照片 | ✅ |
+| 5 | 后台 + 部署 + 公开 | 部署待接 |
 
 ## 目录
 
