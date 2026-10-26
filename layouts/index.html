@@ -4,18 +4,13 @@
 {{ with $gallery }}{{ $imgs = .Resources.ByType "image" }}{{ end }}
 {{ $posts := where site.RegularPages "Section" "posts" }}
 
-{{ with resources.Get "img/masthead.jpg" }}
-  {{/* 轻微软化：半径 0.8（原图 1773px 基准），屏幕上约 0.65px，压掉吊线的硬边 */}}
-  {{ $soft := .Filter (images.GaussianBlur 0.8) }}
-  {{ $large := $soft.Process "webp q90" }}
-  {{ $small := $soft.Resize "1000x webp q85" }}
+{{ with resources.Get "img/masthead.webp" }}
+  {{/* 不压缩：直接发布无损 WebP 原件，Hugo 不做任何重采样或重编码 */}}
   <section class="masthead">
     <img
-      src="{{ $large.RelPermalink }}"
-      srcset="{{ $small.RelPermalink }} 1000w, {{ $large.RelPermalink }} {{ $large.Width }}w"
-      sizes="100vw"
+      src="{{ .RelPermalink }}"
       alt=""
-      width="{{ $large.Width }}" height="{{ $large.Height }}"
+      width="{{ .Width }}" height="{{ .Height }}"
       fetchpriority="high" decoding="async">
     <div class="masthead-text">
       <div class="wrap">
