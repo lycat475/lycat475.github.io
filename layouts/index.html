@@ -1,10 +1,32 @@
-{{ define "main" }}
-<section class="identity">
-  <h1>{{ site.Params.h1 }}</h1>
-  <p class="lede">{{ site.Params.intro }}</p>
-</section>
+{{ define "masthead" }}
+{{ with resources.Get "img/masthead.jpg" }}
+  {{ $large := .Resize "2000x webp q80" }}
+  {{ $small := .Resize "1000x webp q76" }}
+  <section class="masthead">
+    <img
+      src="{{ $large.RelPermalink }}"
+      srcset="{{ $small.RelPermalink }} 1000w, {{ $large.RelPermalink }} 2000w"
+      sizes="100vw"
+      alt=""
+      width="{{ $large.Width }}" height="{{ $large.Height }}"
+      fetchpriority="high" decoding="async">
+    <div class="masthead-text">
+      <div class="wrap">
+        <h1>{{ site.Params.h1 }}</h1>
+        <p class="lede">{{ site.Params.intro }}</p>
+      </div>
+    </div>
+  </section>
+{{ else }}
+  <section class="identity wrap">
+    <h1>{{ site.Params.h1 }}</h1>
+    <p class="lede">{{ site.Params.intro }}</p>
+  </section>
+{{ end }}
+{{ end }}
 
-<section class="block">
+{{ define "main" }}
+<section class="block block-first">
   <h2 class="section-label">最近</h2>
   <ul class="entries">
     {{ range first 3 (where site.RegularPages "Section" "posts") }}
