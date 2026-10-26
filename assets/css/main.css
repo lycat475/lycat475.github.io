@@ -416,3 +416,12 @@ body {
 .post-nav a:hover { color: var(--accent); }
 .post-nav .muted { font-family: var(--mono); font-size: .64rem; letter-spacing: .1em; }
 .post-nav-next { text-align: right; margin-left: auto; }
+
+/* --- 准备中页面 --- */
+.holding-body { display: grid; place-items: center; min-height: 100vh; margin: 0; }
+.holding { display: grid; gap: 1.1rem; justify-items: center; text-align: center; padding: 2rem; }
+.holding h1 {
+  font-family: var(--serif); font-size: clamp(1.6rem, 4vw, 2.1rem);
+  font-weight: 600; letter-spacing: .02em; margin: 0;
+}
+.holding .muted { font-family: var(--mono); font-size: .74rem; letter-spacing: .08em; }

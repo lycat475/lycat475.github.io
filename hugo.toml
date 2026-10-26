@@ -18,6 +18,11 @@ disableKinds = ['taxonomy', 'term']
   author = 'lycat475'
   signNote = '写于 lycat475'
 
+  # 上线开关：true 时全站只显示「准备中」页面
+  holding = true
+  holdingTitle = '还没准备好。'
+  holdingNote = '正在搭，过几天再来。'
+
 [markup.goldmark.renderer]
   unsafe = false
 
