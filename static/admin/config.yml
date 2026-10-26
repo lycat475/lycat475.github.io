@@ -41,3 +41,14 @@ collections:
         fields:
           - { name: title, label: 标题 }
           - { name: body, label: 正文, widget: markdown }
+
+      - name: gallery
+        label: 相册
+        file: content/gallery/_index.md
+        media_folder: content/gallery
+        public_folder: ''
+        fields:
+          - { name: title, label: 标题 }
+          - { name: date, label: 日期, widget: datetime, required: false }
+          - { name: wide, label: 宽版布局, widget: boolean, default: true }
+          - { name: body, label: 说明, widget: markdown, required: false }
