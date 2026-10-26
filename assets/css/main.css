@@ -86,6 +86,8 @@ a { color: inherit; }
   object-fit: cover;
   object-position: 50% 42%;
   display: block;
+  /* 渲染期提一点对比，不改动无损源文件 */
+  filter: contrast(1.08);
 }
 .masthead::after {
   content: "";
