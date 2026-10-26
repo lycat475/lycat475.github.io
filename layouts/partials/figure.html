@@ -1,0 +1,13 @@
+{{ $r := .res }}
+{{ $small := $r.Resize "640x webp q82" }}
+{{ $large := $r.Resize "1440x webp q82" }}
+{{ $alt := "" }}{{ with .alt }}{{ $alt = . }}{{ end }}
+<figure class="shot">
+  <img
+    src="{{ $large.RelPermalink }}"
+    srcset="{{ $small.RelPermalink }} 640w, {{ $large.RelPermalink }} 1440w"
+    sizes="(max-width: 720px) 92vw, 420px"
+    alt="{{ $alt }}"
+    width="{{ $large.Width }}" height="{{ $large.Height }}"
+    loading="lazy" decoding="async">
+</figure>

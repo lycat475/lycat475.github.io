@@ -1,0 +1,20 @@
+{{ define "main" }}
+<header class="page-head">
+  <h1>{{ .Title }}</h1>
+  {{ with .Content }}<div class="lede">{{ . }}</div>{{ end }}
+</header>
+
+{{ $imgs := .Resources.ByType "image" }}
+{{ if $imgs }}
+<div class="gallery">
+  {{ range $imgs }}
+    {{ partial "figure.html" (dict "res" . "alt" .Title) }}
+  {{ end }}
+</div>
+{{ else }}
+<div class="slot-empty">
+  <div class="slot slot-lg" aria-hidden="true">ly</div>
+  <p class="muted">还没有照片。把 jpg 放进 content/gallery/ 就会出现在这里。</p>
+</div>
+{{ end }}
+{{ end }}

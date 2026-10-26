@@ -1,0 +1,6 @@
+public/
+resources/_gen/
+.hugo_build.lock
+tools/
+*.zip
+.DS_Store

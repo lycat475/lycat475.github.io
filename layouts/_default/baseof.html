@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="{{ site.Language.Locale }}">
+<head>
+  {{ partial "head.html" . }}
+</head>
+<body{{ with .Params.wide }} class="wide"{{ end }}>
+  <a class="skip" href="#main">跳到正文</a>
+  <header class="site-head">
+    <a class="site-name" href="{{ "/" | relURL }}">{{ site.Params.name }}</a>
+    <nav class="site-nav">
+      {{ range site.Menus.main }}
+        <a href="{{ .URL | relURL }}">{{ .Name }}</a>
+      {{ end }}
+    </nav>
+  </header>
+
+  <main id="main" class="wrap">
+    {{ block "main" . }}{{ end }}
+  </main>
+
+  <footer class="site-foot">
+    <span>{{ site.Params.author }}</span>
+    <span class="muted">{{ now.Year }}</span>
+  </footer>
+</body>
+</html>

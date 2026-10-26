@@ -1,0 +1,31 @@
+{{ define "main" }}
+<section class="identity">
+  <h1>{{ site.Params.h1 }}</h1>
+  <p class="lede">{{ site.Params.intro }}</p>
+</section>
+
+<section class="block">
+  <h2 class="section-label">最近</h2>
+  <ul class="entries">
+    {{ range first 3 (where site.RegularPages "Section" "posts") }}
+      <li class="entry">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006.01.02" }}</time>
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      </li>
+    {{ else }}
+      <li class="empty-line">还没有文章。</li>
+    {{ end }}
+  </ul>
+</section>
+
+<section class="block">
+  <h2 class="section-label">相册</h2>
+  <p class="gallery-link">
+    <a href="{{ "/gallery/" | relURL }}">去看照片</a>
+    {{ with site.GetPage "/gallery" }}
+      {{ $n := len (.Resources.ByType "image") }}
+      {{ if $n }}<span class="muted">（{{ $n }} 张）</span>{{ end }}
+    {{ end }}
+  </p>
+</section>
+{{ end }}

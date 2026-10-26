@@ -1,0 +1,29 @@
+{{ define "main" }}
+<header class="page-head">
+  <h1>{{ .Title }}</h1>
+  {{ with .Content }}<div class="lede">{{ . }}</div>{{ end }}
+</header>
+
+{{ $paginator := .Paginate .Pages }}
+{{ range $paginator.Pages.GroupByDate "2006" }}
+<section class="year">
+  <h2 class="year-label">{{ .Key }}</h2>
+  <ul class="entries">
+    {{ range .Pages }}
+      <li class="entry">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "01.02" }}</time>
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      </li>
+    {{ end }}
+  </ul>
+</section>
+{{ end }}
+
+{{ if gt $paginator.TotalPages 1 }}
+<nav class="pager">
+  {{ with $paginator.Prev }}<a href="{{ .URL }}">← 新一点</a>{{ end }}
+  <span class="muted">{{ $paginator.PageNumber }} / {{ $paginator.TotalPages }}</span>
+  {{ with $paginator.Next }}<a href="{{ .URL }}">旧一点 →</a>{{ end }}
+</nav>
+{{ end }}
+{{ end }}

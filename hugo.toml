@@ -1,0 +1,40 @@
+baseURL = 'http://localhost:1313/'
+title = 'lycat475'
+defaultContentLanguage = 'zh'
+disableKinds = ['taxonomy', 'term']
+
+[languages]
+  [languages.zh]
+    locale = 'zh-CN'
+    label = '中文'
+
+[pagination]
+  pagerSize = 20
+
+[params]
+  name = 'lycat475'
+  h1 = '在学 Web 安全。'
+  intro = '这里放我自己写的东西：学到哪、做过什么、拍的照片。'
+  author = 'lycat475'
+  signNote = '写于 lycat475'
+
+[markup.goldmark.renderer]
+  unsafe = false
+
+[markup.highlight]
+  style = 'github'
+  noClasses = true
+  lineNos = false
+
+[[menus.main]]
+  name = '文章'
+  pageRef = '/posts'
+  weight = 10
+[[menus.main]]
+  name = '相册'
+  pageRef = '/gallery'
+  weight = 20
+[[menus.main]]
+  name = '关于'
+  pageRef = '/about'
+  weight = 30
