@@ -4,8 +4,7 @@
 
 backend:
   name: github
-  # ↓↓↓ 改成你的仓库，格式 owner/repo，例如 lycat475/lycat475.github.io
-  repo: OWNER/REPO
+  repo: lycat475/lycat475.github.io
   branch: main
 
 # 媒体库：从后台插入图片时存到这里。

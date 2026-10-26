@@ -1,4 +1,4 @@
-baseURL = 'http://localhost:1313/'
+baseURL = 'https://lycat475.github.io/'
 title = 'lycat475'
 defaultContentLanguage = 'zh'
 disableKinds = ['taxonomy', 'term']
