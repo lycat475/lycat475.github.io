@@ -14,7 +14,7 @@ disableKinds = ['taxonomy', 'term']
 [params]
   name = 'lycat475'
   h1 = '在学 Web 安全。'
-  intro = '这里放我自己写的东西：学到哪、做过什么、拍的照片。'
+  intro = '这里放我自己写的东西：学到哪、做过什么。'
   author = 'lycat475'
   signNote = '写于 lycat475'
 

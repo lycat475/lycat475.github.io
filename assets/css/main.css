@@ -319,3 +319,18 @@ body {
 }
 .masthead-text .lede { color: rgba(250,246,238,.94); }
 .masthead-text h1 { text-shadow: 0 2px 30px rgba(0,0,0,.5); }
+/* 报头高度收敛，让「最近」进入首屏；去掉摄影暗示 */
+.masthead { height: clamp(320px, 48vh, 520px); }
+.masthead-text { bottom: clamp(1.3rem, 3.6vh, 2.4rem); }
+@media (max-width: 560px) { .masthead { height: clamp(250px, 40vh, 360px); } }
+.kicker {
+  font-family: var(--mono);
+  font-size: .68rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(250,246,238,.72);
+  margin: 0 0 .9rem;
+  display: block;
+}
+
+.kicker{color:rgba(250,246,238,.86)}

@@ -12,6 +12,7 @@
       fetchpriority="high" decoding="async">
     <div class="masthead-text">
       <div class="wrap">
+        <span class="kicker">笔记 · 2026</span>
         <h1>{{ site.Params.h1 }}</h1>
         <p class="lede">{{ site.Params.intro }}</p>
       </div>
@@ -43,11 +44,9 @@
 <section class="block">
   <h2 class="section-label">相册</h2>
   <p class="gallery-link">
-    <a href="{{ "/gallery/" | relURL }}">去看照片</a>
-    {{ with site.GetPage "/gallery" }}
-      {{ $n := len (.Resources.ByType "image") }}
-      {{ if $n }}<span class="muted">（{{ $n }} 张）</span>{{ end }}
-    {{ end }}
+    {{ $n := 0 }}
+    {{ with site.GetPage "/gallery" }}{{ $n = len (.Resources.ByType "image") }}{{ end }}
+    <a href="{{ "/gallery/" | relURL }}">看 {{ $n }} 张图</a>
   </p>
 </section>
 {{ end }}
