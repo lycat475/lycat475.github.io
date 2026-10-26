@@ -5,16 +5,22 @@
 {{ $posts := where site.RegularPages "Section" "posts" }}
 
 {{ with resources.Get "img/masthead.jpg" }}
-  {{ $large := .Resize "2000x webp q80" }}
-  {{ $small := .Resize "1000x webp q76" }}
+  {{/* 桌面：2.2:1 横幅，Top 锚点保住吊灯与三层圆环 */}}
+  {{ $wide := .Fill "2200x1000 Top webp q80" }}
+  {{ $wideS := .Fill "1100x500 Top webp q76" }}
+  {{/* 移动端：4:5 竖构图，取中心 */}}
+  {{ $tall := .Fill "900x1125 Center webp q80" }}
   <section class="masthead">
-    <img
-      src="{{ $large.RelPermalink }}"
-      srcset="{{ $small.RelPermalink }} 1000w, {{ $large.RelPermalink }} 2000w"
-      sizes="100vw"
-      alt=""
-      width="{{ $large.Width }}" height="{{ $large.Height }}"
-      fetchpriority="high" decoding="async">
+    <picture>
+      <source media="(max-width: 860px)" srcset="{{ $tall.RelPermalink }}" type="image/webp">
+      <img
+        src="{{ $wide.RelPermalink }}"
+        srcset="{{ $wideS.RelPermalink }} 1100w, {{ $wide.RelPermalink }} 2200w"
+        sizes="100vw"
+        alt=""
+        width="{{ $wide.Width }}" height="{{ $wide.Height }}"
+        fetchpriority="high" decoding="async">
+    </picture>
     <div class="masthead-text">
       <div class="wrap">
         <span class="kicker">RECORDS</span>

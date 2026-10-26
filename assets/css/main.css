@@ -77,15 +77,16 @@ a { color: inherit; }
 .masthead {
   position: relative;
   width: 100%;
-  height: clamp(320px, 48vh, 520px);
   overflow: hidden;
   background: #1a1614;
 }
+/* 高度由图本身的比例决定（桌面 2.2:1 / 移动 4:5），
+   这样构图在 CSS 层不再被二次随机裁切；max-height 只做矮屏兜底 */
 .masthead img {
-  width: 100%; height: 100%;
+  width: 100%; height: auto; display: block;
+  max-height: 76vh;
   object-fit: cover;
-  object-position: 50% 42%;
-  display: block;
+  object-position: 50% 50%;
 }
 .masthead::after {
   content: "";
@@ -401,7 +402,7 @@ a { color: inherit; }
 /* ---------- 响应式 ---------- */
 @media (max-width: 860px) {
   .lede { max-width: none; }
-  .masthead { height: clamp(280px, 42vh, 420px); }
+  .masthead img { max-height: 66vh; }
   .masthead-text h1 { font-size: clamp(1.8rem, 7.2vw, 2.4rem); }
   .masthead-text .lede { max-width: none; }
 }
