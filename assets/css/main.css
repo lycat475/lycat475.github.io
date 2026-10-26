@@ -435,3 +435,4 @@ body {
   transition: border-color .18s ease, color .18s ease;
 }
 .btn:hover { border-color: var(--accent); color: var(--accent); }
+.holding .muted { max-width: 26rem; line-height: 2; }

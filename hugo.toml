@@ -20,8 +20,8 @@ disableKinds = ['taxonomy', 'term']
 
   # 上线开关：true 时全站只显示「准备中」页面
   holding = true
-  holdingTitle = '还没准备好。'
-  holdingNote = '正在搭，过几天再来。'
+  holdingTitle = '还没准备好喵'
+  holdingNote = '摸鱼好爽喵~ 噫噫噫补药电窝了本喵马上就干活喵'
 
 [markup.goldmark.renderer]
   unsafe = false
