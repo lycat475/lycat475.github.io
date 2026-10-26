@@ -1,0 +1,43 @@
+# Sveltia CMS 配置
+# 文档：https://sveltiacms.app/en/docs/frameworks/hugo
+# 自托管版本：@sveltia/cms 0.252.0（同目录 sveltia-cms.js，约 2.5MB）
+
+backend:
+  name: github
+  # ↓↓↓ 改成你的仓库，格式 owner/repo，例如 lycat475/lycat475.github.io
+  repo: OWNER/REPO
+  branch: main
+
+# 媒体库：从后台插入图片时存到这里。
+# 注意：后台传图不会经过本地的 EXIF 剥除/压缩流程，照片仍建议走「桌面文件夹 → 导入」。
+media_folder: static/uploads
+public_folder: /uploads
+
+collections:
+  - name: posts
+    label: 文章
+    label_singular: 文章
+    folder: content/posts
+    # Hugo page bundle：content/posts/<slug>/index.md，图片存同一文件夹
+    path: '{{slug}}/index'
+    media_folder: ''
+    public_folder: ''
+    create: true
+    slug: '{{slug}}'
+    summary: '{{title}}'
+    fields:
+      - { name: title, label: 标题 }
+      - { name: date, label: 日期, widget: datetime, date_format: 'YYYY-MM-DD', time_format: 'HH:mm:ss' }
+      - { name: draft, label: 草稿（打开后不会发布）, widget: boolean, default: false }
+      - { name: tags, label: 标签, widget: list, required: false }
+      - { name: body, label: 正文, widget: markdown }
+
+  - name: pages
+    label: 单页
+    files:
+      - name: about
+        label: 关于
+        file: content/about/index.md
+        fields:
+          - { name: title, label: 标题 }
+          - { name: body, label: 正文, widget: markdown }
