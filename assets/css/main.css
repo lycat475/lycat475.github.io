@@ -313,7 +313,7 @@ body {
 .block-first { padding-top: 2.6rem; }
 @media (max-width: 560px) { .block-first { padding-top: 2rem; } }
 /* 报头对比度校准 */
-.masthead img { filter: brightness(.9); }
+.masthead img { filter: none; }
 .masthead::after {
   background: linear-gradient(180deg, rgba(8,7,6,.30) 0%, rgba(8,7,6,0) 24%, rgba(8,7,6,.52) 60%, rgba(8,7,6,.88) 100%);
 }
