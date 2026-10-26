@@ -1,4 +1,5 @@
-baseURL = 'https://lycat475.github.io/'
+# TODO: Cloudflare Pages 首次部署后改成实际的 pages.dev 域名（或自定义域名）
+baseURL = 'https://lycat475.pages.dev/'
 title = 'lycat475'
 defaultContentLanguage = 'zh'
 disableKinds = ['taxonomy', 'term']
