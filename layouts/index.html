@@ -5,12 +5,12 @@
 {{ $posts := where site.RegularPages "Section" "posts" }}
 
 {{ with resources.Get "img/masthead.jpg" }}
-  {{ $large := .Resize "2000x webp q80" }}
-  {{ $small := .Resize "1000x webp q76" }}
+  {{ $large := .Process "webp q90" }}
+  {{ $small := .Resize "1000x webp q85" }}
   <section class="masthead">
     <img
       src="{{ $large.RelPermalink }}"
-      srcset="{{ $small.RelPermalink }} 1000w, {{ $large.RelPermalink }} 2000w"
+      srcset="{{ $small.RelPermalink }} 1000w, {{ $large.RelPermalink }} {{ $large.Width }}w"
       sizes="100vw"
       alt=""
       width="{{ $large.Width }}" height="{{ $large.Height }}"
