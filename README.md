@@ -1,114 +1,44 @@
 # lycat475
 
-Hugo 静态博客。A（文献极简）+ E（摄影画廊）两套密度，共用一套字体与间距。
-
-- 文章区：`--paper` 暖白底、宋体标题、细线分割、单一强调色（朱红）
-- 相册区：同一套字体，切到宽栏 + 大图
-- 无主题依赖，模板全部在本仓库 `layouts/`
-
----
+Hugo 静态博客。无主题依赖，模板全部在 `layouts/`。
 
 ## AI 参与声明
 
-这个站是 AI 协作的产物。如实标注分工：
-
 | 部分 | 谁做的 |
 |---|---|
-| Hugo 模板、CSS、构建配置、图片管线、后台配置 | **AI 生成**，我提需求、做判断、验收结果 |
-| 文章正文、关于页 | **我自己写**；AI 只在要求时改错字、顺句子 |
-| 照片 | **我自己拍**；导入脚本统一压缩并剥除 EXIF（位置/机型/时间） |
-| Sveltia CMS、Hugo 本体 | 第三方开源软件，原样使用，未修改 |
+| 模板、CSS、构建配置、图片管线、后台配置 | AI 生成，我提需求、做判断、验收 |
+| 文章正文、关于页 | 我自己写；AI 只在要求时改错字 |
+| 照片 | 我自己拍；导入时统一压缩并剥除 EXIF |
+| Sveltia CMS、Hugo | 第三方开源软件，未修改 |
 
-不做的事：不代写文章、不搬运他人内容、不把未脱敏的原片放进仓库。
+不代写文章、不搬运他人内容、不把未脱敏的原片放进仓库。AI 生成的内容会在文末注明。
 
-如果某一篇内容由 AI 生成，会在文末注明。
+## 上下线
 
-最后更新：2026-10-26
-
----
-
-## 上下线开关
-
-`hugo.toml` 里 `holding = true` 时，全站（包括文章、相册、404）只渲染一个「准备中」页面，并带 `noindex`。
-正式上线时改成 `false` 再推一次即可，其他内容不受影响。
-
-`holdingTitle` / `holdingNote` 是那两行字，可以直接改。
+`hugo.toml` 里 `holding = true` 时，全站只渲染「准备中」页并带 `noindex`；改成 `false` 推一次即上线。
 
 ## 本地预览
 
 ```bash
-# 在仓库根目录（blog/）执行
-HUGO_CACHEDIR=$PWD/.hugo_cache ../tools/hugo/hugo.exe server --port 1313 --disableFastRender
+HUGO_CACHEDIR=$PWD/.hugo_cache ../tools/hugo/hugo.exe server --port 1313
 ```
 
-打开 http://localhost:1313/ 。改文件会自动重载。
+不设 `HUGO_CACHEDIR` 会因系统 Temp 目录权限报 `Access is denied`。
 
-> 若 `HUGO_CACHEDIR` 不设，Hugo 会去写系统 Temp，某些环境下会报 `Access is denied`。
-
-## 写一篇
+## 写文章
 
 ```bash
-../tools/hugo/hugo.exe new content/posts/我的标题/index.md
+../tools/hugo/hugo.exe new content/posts/标题/index.md
 ```
 
-正文写在 `index.md` 里，图片放同一目录，用 `![](shot.jpg)` 引用。
-
-**坑**：`date:` 写成未来时间，Hugo 默认不构建这一页，本站会静默消失。写完检查一下日期不是明天。
+图片放同一目录，用 `![](shot.jpg)` 引用。坑：`date` 写成未来时间，Hugo 不会构建这一页。
 
 ## 相册
 
-素材放在本机的素材目录，挑图后导入。导入时统一处理：
+导入时统一处理：长边 2000、整块剥除 EXIF、质量 88。构建时 `figure.html` 再转 WebP（640 / 1440）并输出 srcset。
 
-- 长边缩到 2000px
-- 转正 EXIF 方向后**整块剥掉 EXIF**（GPS / 设备 / 时间不进仓库，也不上网）
-- 质量 88、渐进式，单张 150–1100KB
+**原片不进仓库**——`.gitignore` 已挡住 DNG / RAW / HEIC。
 
-构建时 `layouts/partials/figure.html` 再转 WebP、生成 640 / 1440 两档、输出 srcset。
+## 部署
 
-**别把原片放进仓库。** DNG 单张几十 MB，`.gitignore` 挡得住新文件，挡不住历史膨胀。
-
-当前 12 张：`01-dusk-ridge` … `12-swans`，顺序由文件名决定，想调顺序就改前缀数字。
-
-## 部署（Cloudflare Pages）
-
-1. 推仓库到 GitHub（私有也行）
-2. Cloudflare Dashboard → Workers & Pages → Create → Pages → Connect to Git
-3. 构建设置：
-   - Framework preset：**Hugo**
-   - Build command：`hugo`（**不要**加 `--minify`，理由见下）
-   - Build output directory：`public`
-   - 环境变量：`HUGO_VERSION = 0.168.0`
-4. 部署完拿到 `*.pages.dev` 地址，把 `hugo.toml` 里的 `baseURL` 改成它，再推一次
-
-> **为什么不用 `--minify`**：实测每个页面 gzip 后只省约 100 字节，而压缩后的 HTML 是一整行、没法排查问题。CSS 仍会在构建时被 Pipes 压掉（`resources.Get "css/main.css" | minify | fingerprint`），这一层保留。
-
-## 占位与待办
-
-- **形象图**：favicon、404、文章末尾的签名位现在都是「圆环 + ly」占位。图到位后替换 `.slot` 里的内容，尺寸别动。
-- **衬线字体**：现在用系统栈（`Songti SC` / `SimSun`），Windows 和 mac 渲染不同。要统一需自托管思源宋体子集（约 1–2MB），定稿阶段再决定。
-
-## 进度
-
-| 块 | 做什么 | 状态 |
-|---|---|---|
-| 1 | 骨架 + 本地跑通 | ✅ |
-| 2 | 关于页 + 首页文案 | 待你写 |
-| 3 | hello world 正文 | 待你写 |
-| 4 | 相册：12 张照片 | ✅ |
-| 5 | 后台 + 部署 + 公开 | 部署待接 |
-
-## 目录
-
-```
-content/
-  posts/         文章（每篇一个文件夹，图片放里面）
-  gallery/       相册（_index.md + 图片）
-  about/         关于
-layouts/
-  _default/      baseof / single / list
-  index.html     首页
-  gallery/       相册页
-  404.html
-  partials/      head / figure / sign
-assets/css/      main.css（全部样式，约 230 行）
-```
+Cloudflare Pages 接 GitHub 仓库，构建命令 `hugo`，输出目录 `public`，环境变量 `HUGO_VERSION=0.168.0`。地址变更后改 `hugo.toml` 的 `baseURL` 再推一次。
