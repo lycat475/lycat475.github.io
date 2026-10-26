@@ -1,12 +1,14 @@
 {{ $r := .res }}
 {{ $n := .n }}
-{{ $small := $r.Resize "560x webp q80" }}
-{{ $large := $r.Resize "1200x webp q80" }}
+{{ $sizes := default "(max-width: 720px) 46vw, 360px" .sizes }}
+{{ $w := default 1200 .width }}
+{{ $small := $r.Resize (printf "%dx webp q80" (div $w 2)) }}
+{{ $large := $r.Resize (printf "%dx webp q80" $w) }}
 <figure class="plate">
   <img
     src="{{ $large.RelPermalink }}"
-    srcset="{{ $small.RelPermalink }} 560w, {{ $large.RelPermalink }} 1200w"
-    sizes="(max-width: 720px) 46vw, 360px"
+    srcset="{{ $small.RelPermalink }} {{ div $w 2 }}w, {{ $large.RelPermalink }} {{ $w }}w"
+    sizes="{{ $sizes }}"
     alt=""
     width="{{ $large.Width }}" height="{{ $large.Height }}"
     loading="lazy" decoding="async">

@@ -1,4 +1,9 @@
 {{ define "masthead" }}
+{{ $gallery := site.GetPage "/gallery" }}
+{{ $imgs := slice }}
+{{ with $gallery }}{{ $imgs = .Resources.ByType "image" }}{{ end }}
+{{ $posts := where site.RegularPages "Section" "posts" }}
+
 {{ with resources.Get "img/masthead.jpg" }}
   {{ $large := .Resize "2000x webp q80" }}
   {{ $small := .Resize "1000x webp q76" }}
@@ -15,11 +20,17 @@
         <span class="kicker">RECORDS</span>
         <h1>{{ site.Params.h1 }}</h1>
         <p class="lede">{{ site.Params.intro }}</p>
+        <p class="stats">
+          <span>{{ printf "%02d" (len $posts) }} 篇文章</span>
+          <span class="sep">/</span>
+          <span>{{ printf "%02d" (len $imgs) }} 张照片</span>
+        </p>
       </div>
     </div>
   </section>
 {{ else }}
   <section class="identity wrap">
+    <span class="kicker">RECORDS</span>
     <h1>{{ site.Params.h1 }}</h1>
     <p class="lede">{{ site.Params.intro }}</p>
   </section>
@@ -28,21 +39,17 @@
 
 {{ define "main" }}
 {{ $posts := where site.RegularPages "Section" "posts" }}
-{{ $figs := 0 }}
-{{ with site.GetPage "/gallery" }}{{ $figs = len (.Resources.ByType "image") }}{{ end }}
+{{ $gallery := site.GetPage "/gallery" }}
+{{ $imgs := slice }}
+{{ with $gallery }}{{ $imgs = .Resources.ByType "image" }}{{ end }}
 
-<section class="strip">
-  <div class="wrap strip-inner">
-    <span class="strip-item"><span class="strip-num">{{ printf "%02d" (len $posts) }}</span> 篇文章</span>
-    <span class="strip-item"><span class="strip-num">{{ printf "%02d" $figs }}</span> 张</span>
-    
+<section class="block">
+  <div class="label-row">
+    <h2 class="label">文章</h2>
+    {{ if gt (len $posts) 5 }}<a class="label-link" href="{{ "/posts/" | relURL }}">全部</a>{{ end }}
   </div>
-</section>
-
-<section class="block block-first">
-  <h2 class="section-label">文章</h2>
   <ol class="index">
-    {{ range $i, $p := $posts }}
+    {{ range $i, $p := first 5 $posts }}
       <li class="index-row">
         <span class="index-no">{{ printf "%02d" (add $i 1) }}</span>
         <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "2006.01.02" }}</time>
@@ -54,10 +61,17 @@
   </ol>
 </section>
 
+{{ with $imgs }}
 <section class="block">
-  <h2 class="section-label">画廊</h2>
-  <p class="gallery-link">
-    <a href="{{ "/gallery/" | relURL }}">查看</a>
-  </p>
+  <div class="label-row">
+    <h2 class="label">相册</h2>
+    <a class="label-link" href="{{ "/gallery/" | relURL }}">全部 {{ len . }} 张 →</a>
+  </div>
+  <div class="plates plates-home">
+    {{ range $i, $img := first 6 . }}
+      {{ partial "figure.html" (dict "res" $img "n" $i "sizes" "(max-width: 620px) 46vw, 320px" "width" 640) }}
+    {{ end }}
+  </div>
 </section>
+{{ end }}
 {{ end }}

@@ -27,7 +27,7 @@ disableKinds = ['taxonomy', 'term']
   unsafe = false
 
 [markup.highlight]
-  style = 'github'
+  style = 'solarized-light'
   noClasses = true
   lineNos = false
 

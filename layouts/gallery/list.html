@@ -6,7 +6,7 @@
 
 {{ $imgs := .Resources.ByType "image" }}
 {{ if $imgs }}
-<div class="plates">
+<div class="plates gallery">
   {{ range $i, $img := $imgs }}
     {{ partial "figure.html" (dict "res" $img "n" $i) }}
   {{ end }}

@@ -13,7 +13,8 @@
   </div>
 </body>
 {{ else }}
-<body{{ with .Params.wide }} class="wide"{{ end }}>
+{{ $wide := or .IsHome (eq .Section "gallery") .Params.wide }}
+<body{{ if $wide }} class="wide"{{ end }}>
   <a class="skip" href="#main">跳到正文</a>
   <header class="site-head">
     <a class="site-name" href="{{ "/" | relURL }}">{{ site.Params.name }}</a>
