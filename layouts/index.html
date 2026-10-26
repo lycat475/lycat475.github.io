@@ -5,8 +5,10 @@
 {{ $posts := where site.RegularPages "Section" "posts" }}
 
 {{ with resources.Get "img/masthead.jpg" }}
-  {{ $large := .Process "webp q90" }}
-  {{ $small := .Resize "1000x webp q85" }}
+  {{/* 轻微软化：半径 0.8（原图 1773px 基准），屏幕上约 0.65px，压掉吊线的硬边 */}}
+  {{ $soft := .Filter (images.GaussianBlur 0.8) }}
+  {{ $large := $soft.Process "webp q90" }}
+  {{ $small := $soft.Resize "1000x webp q85" }}
   <section class="masthead">
     <img
       src="{{ $large.RelPermalink }}"
