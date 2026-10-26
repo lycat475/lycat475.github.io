@@ -12,7 +12,7 @@ disableKinds = ['taxonomy', 'term']
   pagerSize = 20
 
 [params]
-  name = 'lycat 的blog'
+  name = 'lycat475 的 blog'
   h1 = 'LYCAT475'
   intro = 'A new CTFer && a photography enthusiast'
   author = 'lycat475'

@@ -14,6 +14,9 @@
   <div class="prose">
     {{ .Content }}
   </div>
+  {{ with .Params.github }}
+  <p class="page-cta"><a class="btn" href="{{ . }}" rel="me" target="_blank">GitHub ↗</a></p>
+  {{ end }}
   {{ if eq .Section "posts" }}{{ partial "sign.html" . }}{{ end }}
 </article>
 

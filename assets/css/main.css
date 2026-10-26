@@ -425,3 +425,13 @@ body {
   font-weight: 600; letter-spacing: .02em; margin: 0;
 }
 .holding .muted { font-family: var(--mono); font-size: .74rem; letter-spacing: .08em; }
+
+/* --- 外链按钮 --- */
+.page-cta { margin: 2rem 0 0; }
+.btn {
+  display: inline-block; padding: .5rem .85rem;
+  border: 1px solid var(--rule); color: var(--ink); text-decoration: none;
+  font-family: var(--mono); font-size: .72rem; letter-spacing: .1em;
+  transition: border-color .18s ease, color .18s ease;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); }

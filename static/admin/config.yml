@@ -39,6 +39,7 @@ collections:
         file: content/about/index.md
         fields:
           - { name: title, label: 标题 }
+          - { name: github, label: GitHub 地址, required: false }
           - { name: body, label: 正文, widget: markdown }
 
       - name: gallery
