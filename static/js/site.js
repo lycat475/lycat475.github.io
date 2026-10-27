@@ -100,9 +100,23 @@
 
   /* ---------- 启动 ---------- */
   if (window.Swup) {
+    var plugins = [];
+    if (window.SwupPreloadPlugin) {
+      plugins.push(new window.SwupPreloadPlugin({
+        preloadHoveredLinks: true,
+        preloadVisibleLinks: { enabled: false }   // 不在首屏就预取全部链接
+      }));
+    }
+    if (window.SwupScrollPlugin) {
+      plugins.push(new window.SwupScrollPlugin({ offset: 0 }));
+    }
+    if (window.SwupProgressPlugin) {
+      plugins.push(new window.SwupProgressPlugin({ delay: 150 }));
+    }
     var swup = new window.Swup({
       containers: ['#swup'],
-      animateHistoryBrowsing: true
+      animateHistoryBrowsing: true,
+      plugins: plugins
     });
     swup.hooks.on('page:view', function (visit) {
       syncHead(visit);
