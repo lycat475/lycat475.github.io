@@ -465,3 +465,31 @@ a { color: inherit; }
 .highlight:hover .copy-btn, .copy-btn:focus-visible, .copy-btn:disabled { opacity: 1; }
 .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
 @media (hover: none) { .copy-btn { opacity: 1; } }
+
+/* ---------- 暗色主题（手动切换，存 localStorage） ---------- */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #14110f;
+  --paper-2: #1d1915;
+  --ink: #e9e3d9;
+  --ink-soft: #a89d8f;
+  --rule: #332b24;
+  --rule-soft: #241e19;
+  --accent: #d97460;
+}
+/* 切换按钮 */
+.theme-toggle {
+  font-family: var(--mono); font-size: .82rem; line-height: 1;
+  color: var(--ink-soft); background: none; border: 0;
+  padding: 0 0 3px; cursor: pointer; border-bottom: 1px solid transparent;
+  transition: color .18s ease, border-color .18s ease;
+}
+.theme-toggle::before { content: "◐"; }
+:root[data-theme="dark"] .theme-toggle::before { content: "☀"; }
+.theme-toggle:hover { color: var(--ink); border-bottom-color: var(--rule); }
+
+/* 暗色下站点标记反相（原图是深色线条，暗底会消失） */
+:root[data-theme="dark"] .mark { filter: invert(1) brightness(1.15); }
+:root[data-theme="dark"] .masthead::after {
+  background: linear-gradient(180deg, rgba(0,0,0,.42) 0%, rgba(0,0,0,.04) 26%, rgba(0,0,0,.58) 62%, rgba(0,0,0,.92) 100%);
+}

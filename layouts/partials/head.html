@@ -3,6 +3,15 @@
 <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} · {{ site.Title }}{{ end }}</title>
 <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.intro }}{{ end }}">
 <link rel="canonical" href="{{ .Permalink }}">
+<script>
+  // 首屏前应用已保存的主题，避免闪白
+  (function () {
+    try {
+      var t = localStorage.getItem('theme');
+      if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
 <link rel="icon" href="{{ "favicon.ico" | relURL }}" sizes="16x16 32x32 48x48">
 <link rel="icon" href="{{ "favicon-32.png" | relURL }}" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="{{ "apple-touch-icon.png" | relURL }}">
@@ -13,6 +22,5 @@
 <link rel="stylesheet" href="{{ "vendor/photoswipe.css" | relURL }}">
 {{ end }}
 {{/* chroma 在前、main 在后：main 的覆盖优先 */}}
-{{ $chroma := resources.Get "css/chroma.css" }}
-{{ $css := slice $chroma (resources.Get "css/main.css") | resources.Concat "css/bundle.css" | minify | fingerprint }}
+{{ $css := slice (resources.Get "css/chroma.css") (resources.Get "css/chroma-dark.css") (resources.Get "css/main.css") | resources.Concat "css/bundle.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
