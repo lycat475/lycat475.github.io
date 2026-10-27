@@ -3,6 +3,7 @@
 <head>
   {{ partial "head.html" . }}
   {{ if site.Params.holding }}<meta name="robots" content="noindex, nofollow">{{ end }}
+<noscript><style>.theme-toggle{display:none}</style></noscript>
 </head>
 {{ if site.Params.holding }}
 <body class="holding-body">
@@ -26,11 +27,13 @@
     </nav>
   </header>
 
-  {{ block "masthead" . }}{{ end }}
+  <div id="swup" class="transition-main">
+    {{ block "masthead" . }}{{ end }}
 
-  <main id="main" class="wrap">
-    {{ block "main" . }}{{ end }}
-  </main>
+    <main id="main" class="wrap">
+      {{ block "main" . }}{{ end }}
+    </main>
+  </div>
 
   <footer class="site-foot">
     <span>© {{ now.Year }} {{ site.Params.author }}</span>
@@ -40,18 +43,8 @@
     </span>
   </footer>
 
-  <script>
-    (function () {
-      var btn = document.querySelector('.theme-toggle');
-      if (!btn) return;
-      btn.addEventListener('click', function () {
-        var root = document.documentElement;
-        var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-        root.setAttribute('data-theme', next);
-        try { localStorage.setItem('theme', next); } catch (e) {}
-      });
-    })();
-  </script>
+  <script src="{{ "vendor/swup/swup.umd.js" | relURL }}" defer></script>
+  <script src="{{ "js/site.js" | relURL }}" defer></script>
 </body>
 {{ end }}
 </html>

@@ -595,3 +595,18 @@ a { color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   @view-transition { navigation: none; }
 }
+
+/* ---------- swup 页面过渡（换页时 #swup 淡出/淡入，页头不动） ---------- */
+@keyframes swup-in {
+  from { opacity: 0; transform: translateY(4px); }
+}
+@keyframes swup-out {
+  to { opacity: 0; }
+}
+html.is-changing .transition-main { animation: swup-in .24s ease both; }
+html.is-leaving .transition-main { animation: swup-out .16s ease both; }
+
+@media (prefers-reduced-motion: reduce) {
+  html.is-changing .transition-main,
+  html.is-leaving .transition-main { animation: none; }
+}

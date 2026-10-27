@@ -8,7 +8,7 @@
 {{ $xl := $large }}
 {{ if $lightbox }}{{ $xl = $r.Resize "2000x webp q82" }}{{ end }}
 <figure class="plate">
-  {{ if $lightbox }}<a class="plate-link" href="{{ $xl.RelPermalink }}"
+  {{ if $lightbox }}<a class="plate-link" data-no-swup href="{{ $xl.RelPermalink }}"
      data-pswp-width="{{ $xl.Width }}" data-pswp-height="{{ $xl.Height }}"
      data-pswp-srcset="{{ $large.RelPermalink }} {{ $large.Width }}w, {{ $xl.RelPermalink }} {{ $xl.Width }}w"
      data-caption="{{ printf "%02d" (add $n 1) }}">{{ end }}
