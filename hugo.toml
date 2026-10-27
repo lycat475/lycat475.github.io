@@ -14,7 +14,7 @@ disableKinds = ['taxonomy', 'term']
 [params]
   name = 'lycat475 的 blog'
   h1 = 'LYCAT475'
-  intro = 'A new CTFer && a photography enthusiast'
+  intro = 'A new CTFer && a photography beginner'
   author = 'lycat475'
   signNote = 'by lycat475'
 
