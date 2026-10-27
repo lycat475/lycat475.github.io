@@ -622,13 +622,13 @@ a { color: inherit; }
 
 /* ---------- swup 页面过渡（换页时 #swup 淡出/淡入，页头不动） ---------- */
 @keyframes swup-in {
-  from { opacity: 0; transform: translateY(4px); }
+  from { opacity: 0; transform: translateY(14px); }
 }
 @keyframes swup-out {
-  to { opacity: 0; }
+  to { opacity: 0; transform: translateY(-8px); }
 }
-html.is-changing .transition-main { animation: swup-in .24s ease both; }
-html.is-leaving .transition-main { animation: swup-out .16s ease both; }
+html.is-changing .transition-main { animation: swup-in .4s cubic-bezier(.22, 1, .36, 1) both; }
+html.is-leaving .transition-main { animation: swup-out .2s ease-in both; }
 
 @media (prefers-reduced-motion: reduce) {
   html.is-changing .transition-main,
@@ -726,4 +726,39 @@ html.js-motion .reveal.is-in { opacity: 1; transform: none; }
 .read-progress.is-on { opacity: 1; }
 @media (prefers-reduced-motion: reduce) {
   .read-progress { display: none; }
+}
+
+/* ---------- 动效 F：图片载入渐显（类由 site.js 加，已缓存的图不加） ---------- */
+html.js-motion .plate img,
+html.js-motion .post img {
+  transition:
+    opacity .55s ease,
+    transform .65s cubic-bezier(.22, 1, .36, 1),
+    filter .3s ease;
+}
+html.js-motion .plate img.is-loading,
+html.js-motion .post img.is-loading { opacity: 0; }
+
+/* ---------- 动效 G：几处小交互 ---------- */
+/* 首页缩略图行：悬停轻轻抬起 */
+.thumb-row img { transition: filter .2s ease, transform .3s cubic-bezier(.22, 1, .36, 1); }
+@media (hover: hover) {
+  .thumb-row img:hover { transform: translateY(-3px); filter: saturate(1) brightness(1.04); }
+}
+/* 正文链接：悬停时下划线往下沉一点（不是变色，读起来更稳） */
+.prose a { transition: text-underline-offset .22s ease; }
+.prose a:hover { text-underline-offset: 5px; }
+
+/* ---------- 动效 I：页面标题像帘子一样揭开 ---------- */
+@keyframes title-mask {
+  from { clip-path: inset(0 0 108% 0); transform: translateY(.1em); }
+  to   { clip-path: inset(0 0 -6% 0); transform: none; }
+}
+html.js-motion .page-head h1,
+html.js-motion .post-title {
+  animation: title-mask .78s cubic-bezier(.22, 1, .36, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.js-motion .page-head h1,
+  html.js-motion .post-title { animation: none; }
 }

@@ -15,6 +15,7 @@
     stickyHead: true,   // 页头吸附 + 毛玻璃
     reveal: true,       // 相册 / 列表滚动显影
     progress: true,     // 文章页阅读进度线
+    imageFade: true,    // 图片载入渐显
     zoomLightbox: true  // 灯箱从缩略图放大开合
   };
   function motion(flag) { return !!MOTION[flag] && !reduce; }
@@ -165,6 +166,20 @@
     });
   }
 
+  /* ---------- 图片载入渐显（已缓存的图不参与，避免闪一下） ---------- */
+  function initImageFade() {
+    if (!motion('imageFade')) return;
+    document.querySelectorAll('.plate img, .post img').forEach(function (img) {
+      if (img.dataset.fadeReady) return;
+      img.dataset.fadeReady = '1';
+      if (img.complete && img.naturalWidth) return;   // 已经画出来了，别动
+      img.classList.add('is-loading');
+      var done = function () { img.classList.remove('is-loading'); };
+      img.addEventListener('load', done, { once: true });
+      img.addEventListener('error', done, { once: true });
+    });
+  }
+
   /* ---------- 代码块复制按钮（幂等） ---------- */
   function addCopyButtons() {
     document.querySelectorAll('.prose .highlight').forEach(function (box) {
@@ -251,6 +266,7 @@
     ensureHeadGlass();
     ensureProgressBar();
     initReveal();
+    initImageFade();
     onScroll();          // 立即按当前滚动位置摆好视差/吸附/进度
   }
 
