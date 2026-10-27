@@ -5,12 +5,15 @@
 {{ $posts := where site.RegularPages "Section" "posts" }}
 
 {{ with resources.Get "img/masthead.webp" }}
-  {{/* 不压缩：直接发布无损 WebP 原件，Hugo 不做任何重采样或重编码 */}}
+  {{ $large := .Resize "2000x webp q80" }}
+  {{ $small := .Resize "1000x webp q76" }}
   <section class="masthead">
     <img
-      src="{{ .RelPermalink }}"
+      src="{{ $large.RelPermalink }}"
+      srcset="{{ $small.RelPermalink }} 1000w, {{ $large.RelPermalink }} 2000w"
+      sizes="100vw"
       alt=""
-      width="{{ .Width }}" height="{{ .Height }}"
+      width="{{ $large.Width }}" height="{{ $large.Height }}"
       fetchpriority="high" decoding="async">
     <div class="masthead-text">
       <div class="wrap">
@@ -37,8 +40,6 @@
 {{ define "main" }}
 {{ $posts := where site.RegularPages "Section" "posts" }}
 {{ $gallery := site.GetPage "/gallery" }}
-{{ $imgs := slice }}
-{{ with $gallery }}{{ $imgs = .Resources.ByType "image" }}{{ end }}
 
 <section class="block">
   <div class="label-row">
@@ -50,7 +51,10 @@
       <li class="index-row">
         <span class="index-no">{{ printf "%02d" (add $i 1) }}</span>
         <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "2006.01.02" }}</time>
-        <a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a>
+        <div class="index-main">
+          <a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a>
+          {{ with $p.Summary }}<p class="index-sum">{{ . | plainify | truncate 90 }}</p>{{ end }}
+        </div>
       </li>
     {{ else }}
       <li class="index-row"><span class="index-no">—</span><span></span><span class="muted meow">空空如也喵</span></li>
@@ -59,20 +63,18 @@
 </section>
 
 {{ with $gallery }}
-<section class="block">
+{{ $imgs := .Resources.ByType "image" }}
+<section class="block block-last">
   <div class="label-row">
     <h2 class="label">相册</h2>
-    <a class="label-link" href="{{ "/gallery/" | relURL }}">全部 {{ len (.Resources.ByType "image") }} 张 →</a>
+    <a class="label-link" href="{{ "/gallery/" | relURL }}">全部 {{ len $imgs }} 张 →</a>
   </div>
-  {{ with .Resources.GetMatch "p02.*" }}
-    {{ $hero := .Resize "1600x webp q84" }}
-    <a class="home-photo" href="{{ "/gallery/" | relURL }}">
-      <img src="{{ $hero.RelPermalink }}" alt=""
-           width="{{ $hero.Width }}" height="{{ $hero.Height }}" loading="lazy" decoding="async">
-    </a>
-  {{ end }}
+  <a class="thumb-row" href="{{ "/gallery/" | relURL }}" aria-label="查看相册">
+    {{ range first 5 $imgs }}
+      {{ $t := .Resize "92x92 Center webp q78" }}
+      <img src="{{ $t.RelPermalink }}" alt="" width="46" height="46" loading="lazy" decoding="async">
+    {{ end }}
+  </a>
 </section>
 {{ end }}
 {{ end }}
-
-{{ define "prefooter" }}{{ partial "photo-band.html" . }}{{ end }}
