@@ -18,6 +18,8 @@
     <img
       class="masthead-blur"
       src="{{ $large.RelPermalink }}"
+      srcset="{{ $small.RelPermalink }} 1000w, {{ $large.RelPermalink }} 2000w"
+      sizes="100vw"
       alt="" aria-hidden="true"
       width="{{ $large.Width }}" height="{{ $large.Height }}"
       decoding="async">

@@ -78,6 +78,21 @@
     }).catch(function (err) { console.error('lightbox init failed', err); });
   }
 
+  /* ---------- 同步 <head> 里的 meta（swup 只更新 title） ---------- */
+  function syncHead(visit) {
+    try {
+      var doc = visit && visit.to && visit.to.document;
+      if (!doc) return;
+      [['meta[name="description"]', 'content'],
+       ['meta[property="og:title"]', 'content'],
+       ['meta[property="og:description"]', 'content']].forEach(function (pair) {
+        var next = doc.querySelector(pair[0]);
+        var cur = document.querySelector(pair[0]);
+        if (next && cur) cur.setAttribute(pair[1], next.getAttribute(pair[1]) || '');
+      });
+    } catch (e) { /* 失败不影响导航 */ }
+  }
+
   function enhance() {
     addCopyButtons();
     initLightbox();
@@ -87,10 +102,12 @@
   if (window.Swup) {
     var swup = new window.Swup({
       containers: ['#swup'],
-      animateHistoryBrowsing: true,
-      skipPopStateHandling: false
+      animateHistoryBrowsing: true
     });
-    swup.hooks.on('page:view', enhance);
+    swup.hooks.on('page:view', function (visit) {
+      syncHead(visit);
+      enhance();
+    });
     window.__swup = swup;
   }
   enhance();
