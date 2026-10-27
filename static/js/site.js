@@ -4,14 +4,38 @@
 (function () {
   'use strict';
 
-  /* ---------- 主题切换：事件委托，换页不丢 ---------- */
+  /* ---------- 主题切换：从按钮扩散的圆形揭示（View Transition） ---------- */
+  function applyTheme(next) {
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (err) {}
+  }
+
   document.addEventListener('click', function (e) {
     var btn = e.target.closest('.theme-toggle');
     if (!btn) return;
     var root = document.documentElement;
     var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    try { localStorage.setItem('theme', next); } catch (err) {}
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!document.startViewTransition || reduce) {
+      applyTheme(next);
+      return;
+    }
+
+    // 圆心 = 按钮中心；半径 = 到视口最远角的距离
+    var r = btn.getBoundingClientRect();
+    var x = r.left + r.width / 2;
+    var y = r.top + r.height / 2;
+    var far = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    root.style.setProperty('--vt-x', x + 'px');
+    root.style.setProperty('--vt-y', y + 'px');
+    root.style.setProperty('--vt-r', Math.ceil(far) + 'px');
+
+    root.classList.add('theme-vt');
+    var vt = document.startViewTransition(function () { applyTheme(next); });
+    vt.finished.finally(function () {
+      root.classList.remove('theme-vt');
+    });
   });
 
   /* ---------- 代码块复制按钮（幂等） ---------- */

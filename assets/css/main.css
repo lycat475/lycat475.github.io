@@ -569,8 +569,6 @@ a { color: inherit; }
    不支持该特性的浏览器 = 普通跳转，不会坏。 */
 @view-transition { navigation: auto; }
 
-/* 页头保持不动，只有内容区做过渡（避免整页闪一下） */
-.site-head { view-transition-name: site-head; }
 
 @keyframes vt-fade-in {
   from { opacity: 0; transform: translateY(3px); }
@@ -584,12 +582,6 @@ a { color: inherit; }
 }
 ::view-transition-new(root) {
   animation: vt-fade-in 220ms ease both;
-}
-/* 页头不参与淡入淡出 */
-::view-transition-old(site-head),
-::view-transition-new(site-head) {
-  animation: none;
-  mix-blend-mode: normal;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -621,4 +613,28 @@ html.is-leaving .transition-main { animation: swup-out .16s ease both; }
   z-index: 9999;
   pointer-events: none;
   transition: transform .3s ease, opacity .3s ease;
+}
+
+/* ---------- 主题切换：圆形扩散（只在切换瞬间生效，不影响页面导航过渡） ---------- */
+@keyframes theme-circle-in {
+  from { clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 50%)); }
+  to   { clip-path: circle(var(--vt-r, 150vmax) at var(--vt-x, 50%) var(--vt-y, 50%)); }
+}
+
+html.theme-vt::view-transition-old(root) {
+  animation: none;
+  opacity: 1;
+  z-index: 1;
+}
+html.theme-vt::view-transition-new(root) {
+  animation: theme-circle-in .45s cubic-bezier(.4, 0, .2, 1) both;
+  z-index: 2;
+}
+html.theme-vt::view-transition-group(root) {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.theme-vt::view-transition-new(root),
+  html.theme-vt::view-transition-old(root) { animation: none; }
 }
