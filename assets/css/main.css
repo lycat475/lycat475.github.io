@@ -66,15 +66,36 @@ a { color: inherit; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 1px; }
 
 .skip { position: absolute; left: -9999px; }
-.skip:focus { left: 1rem; top: 1rem; background: var(--paper); padding: .5rem 1rem; z-index: 9; }
+.skip:focus { left: 1rem; top: 1rem; background: var(--paper); padding: .5rem 1rem; z-index: 1000; }
 
-/* ---------- 头部 ---------- */
+/* ---------- 头部（滚动后吸附 + 毛玻璃，见「动效 B」） ---------- */
 .site-head {
+  position: sticky;
+  top: 0;
+  z-index: 60;
   width: min(100% - 2 * var(--gutter), var(--page));
   margin: 0 auto;
   padding: 1.7rem 0 1.15rem;
   display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
   border-bottom: 1px solid var(--rule);
+}
+/* 毛玻璃是一条独立的满幅固定条（高度由 JS 量），
+   这样在满幅大图上不会有「一条窄卡片」的硬边 */
+.head-glass {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 59;
+  height: 0;
+  pointer-events: none;
+  opacity: 0;
+  border-bottom: 1px solid transparent;
+  background: color-mix(in srgb, var(--paper) 86%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(118%);
+          backdrop-filter: blur(14px) saturate(118%);
+  transition: opacity .28s ease, border-color .28s ease;
+}
+.head-glass.is-on { opacity: 1; border-bottom-color: var(--rule); }
+@supports not (background: color-mix(in srgb, white 50%, transparent)) {
+  .head-glass { background: var(--paper); }
 }
 .site-name {
   font-size: 1.02rem;

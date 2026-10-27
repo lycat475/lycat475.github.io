@@ -90,8 +90,30 @@
         text.style.setProperty('--mast-text-o', (1 - mastP * 0.9).toFixed(3));
       }
     }
-    if (head) head.classList.toggle('is-stuck', y > 6);
+    if (head) {
+      var stuck = y > 6;
+      head.classList.toggle('is-stuck', stuck);
+      if (headGlass) headGlass.classList.toggle('is-on', stuck);
+    }
     if (post) paintProgress(postP);
+  }
+
+  /* ---------- 页头毛玻璃：满幅固定条，高度跟页头一致 ---------- */
+  var headGlass = null;
+  function ensureHeadGlass() {
+    var head = motion('stickyHead') ? document.querySelector('.site-head') : null;
+    if (!head) {
+      if (headGlass && headGlass.parentNode) headGlass.parentNode.removeChild(headGlass);
+      headGlass = null;
+      return;
+    }
+    if (!headGlass || !headGlass.parentNode) {
+      headGlass = document.createElement('div');
+      headGlass.className = 'head-glass';
+      headGlass.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(headGlass);
+    }
+    headGlass.style.height = Math.round(head.getBoundingClientRect().height) + 'px';
   }
 
   /* ---------- 文章页阅读进度线 ---------- */
@@ -225,6 +247,7 @@
   function enhance() {
     addCopyButtons();
     initLightbox();
+    ensureHeadGlass();
     ensureProgressBar();
     initReveal();
     onScroll();          // 立即按当前滚动位置摆好视差/吸附/进度
@@ -232,7 +255,8 @@
 
   /* ---------- 启动 ---------- */
   window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
+  window.addEventListener('resize', function () { ensureHeadGlass(); onScroll(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(ensureHeadGlass);
 
   if (window.Swup) {
     var plugins = [];
