@@ -4,7 +4,14 @@
 {{ $w := default 1200 .width }}
 {{ $small := $r.Resize (printf "%dx webp q80" (div $w 2)) }}
 {{ $large := $r.Resize (printf "%dx webp q80" $w) }}
+{{ $lightbox := default false .lightbox }}
+{{ $xl := $large }}
+{{ if $lightbox }}{{ $xl = $r.Resize "2000x webp q82" }}{{ end }}
 <figure class="plate">
+  {{ if $lightbox }}<a class="plate-link" href="{{ $xl.RelPermalink }}"
+     data-pswp-width="{{ $xl.Width }}" data-pswp-height="{{ $xl.Height }}"
+     data-pswp-srcset="{{ $large.RelPermalink }} {{ $large.Width }}w, {{ $xl.RelPermalink }} {{ $xl.Width }}w"
+     data-caption="{{ printf "%02d" (add $n 1) }}">{{ end }}
   <img
     src="{{ $large.RelPermalink }}"
     srcset="{{ $small.RelPermalink }} {{ div $w 2 }}w, {{ $large.RelPermalink }} {{ $w }}w"
@@ -12,6 +19,7 @@
     alt=""
     width="{{ $large.Width }}" height="{{ $large.Height }}"
     loading="lazy" decoding="async">
+  {{ if $lightbox }}</a>{{ end }}
   <figcaption>
     <span class="plate-no">{{ printf "%02d" (add $n 1) }}</span>
   </figcaption>

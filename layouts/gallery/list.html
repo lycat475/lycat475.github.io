@@ -8,7 +8,7 @@
 {{ if $imgs }}
 <div class="plates gallery">
   {{ range $i, $img := $imgs }}
-    {{ partial "figure.html" (dict "res" $img "n" $i) }}
+    {{ partial "figure.html" (dict "res" $img "n" $i "lightbox" true) }}
   {{ end }}
 </div>
 {{ else }}
@@ -17,4 +17,6 @@
   <p class="muted meow">空空如也喵</p>
 </div>
 {{ end }}
+
+{{ partial "lightbox.html" . }}
 {{ end }}

@@ -9,5 +9,8 @@
 {{ with site.Home.OutputFormats.Get "rss" }}
 <link rel="alternate" type="application/rss+xml" href="{{ .Permalink }}" title="{{ site.Title }}">
 {{ end }}
+{{ if eq .Section "gallery" }}
+<link rel="stylesheet" href="{{ "vendor/photoswipe.css" | relURL }}">
+{{ end }}
 {{ $css := resources.Get "css/main.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">

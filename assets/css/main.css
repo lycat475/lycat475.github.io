@@ -236,6 +236,8 @@ a { color: inherit; }
   gap: 1.5rem 1.2rem;
 }
 .plate { margin: 0; }
+.plate-link { display: block; cursor: zoom-in; overflow: hidden; }
+.plate-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .plate img {
   width: 100%; height: auto; display: block;
   aspect-ratio: 4 / 3; object-fit: cover;
@@ -446,3 +448,7 @@ a { color: inherit; }
   font-family: var(--meow);
   letter-spacing: .02em;
 }
+
+/* 灯箱：暖黑底，和纸色调性一致 */
+.pswp__bg { background: #14110f; }
+.pswp__counter, .pswp__button { opacity: .85; }
