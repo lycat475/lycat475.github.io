@@ -260,6 +260,19 @@
     } catch (e) { /* 失败不影响导航 */ }
   }
 
+  /* 当前栏目下划线：header 在 #swup 之外、不随换页重建，得自己标 */
+  function markNav() {
+    var here = location.pathname;
+    if (here.slice(-1) !== '/') here += '/';
+    var links = document.querySelectorAll('.site-nav a[href]');
+    for (var i = 0; i < links.length; i++) {
+      var p = links[i].pathname || '';
+      if (p.slice(-1) !== '/') p += '/';
+      if (p === here) links[i].setAttribute('aria-current', 'page');
+      else links[i].removeAttribute('aria-current');
+    }
+  }
+
   function enhance() {
     addCopyButtons();
     initLightbox();
@@ -267,6 +280,7 @@
     ensureProgressBar();
     initReveal();
     initImageFade();
+    markNav();
     onScroll();          // 立即按当前滚动位置摆好视差/吸附/进度
   }
 

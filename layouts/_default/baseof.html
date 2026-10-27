@@ -21,7 +21,8 @@
     <a class="site-name" href="{{ "/" | relURL }}">{{ site.Params.name }}</a>
     <nav class="site-nav">
       {{ range site.Menus.main }}
-        <a href="{{ .URL | relURL }}">{{ .Name }}</a>
+        {{ $u := .URL | relURL }}
+        <a href="{{ $u }}"{{ if eq $u $.RelPermalink }} aria-current="page"{{ end }}>{{ .Name }}</a>
       {{ end }}
       <button class="theme-toggle" type="button" aria-label="切换亮色/暗色" title="切换亮色/暗色"></button>
     </nav>

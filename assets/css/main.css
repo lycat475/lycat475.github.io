@@ -105,15 +105,28 @@ a { color: inherit; }
 }
 .site-nav { display: flex; gap: 1.4rem; }
 .site-nav a {
+  position: relative;
   font-size: .84rem;
   letter-spacing: .14em;
   color: var(--ink-soft);
   text-decoration: none;
   padding-bottom: 2px;
-  border-bottom: 1px solid transparent;
-  transition: color .18s ease, border-color .18s ease;
+  transition: color .18s ease;
 }
-.site-nav a:hover { color: var(--ink); border-bottom-color: var(--rule); }
+/* 悬停时一条 1px 细线从左往右长出来（不是整条变色的硬切换） */
+.site-nav a::after {
+  content: "";
+  position: absolute; left: 0; right: 0; bottom: 0;
+  height: 1px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform .26s cubic-bezier(.22, 1, .36, 1);
+}
+.site-nav a:hover { color: var(--ink); }
+.site-nav a:hover::after,
+.site-nav a[aria-current]::after { transform: scaleX(1); }
+.site-nav a[aria-current] { color: var(--ink); }
 
 /* ---------- 报头：满幅大图 + 压字 ---------- */
 .masthead {
