@@ -563,3 +563,35 @@ a { color: inherit; }
   -webkit-mask-image: linear-gradient(180deg, transparent 44%, #000 78%);
           mask-image: linear-gradient(180deg, transparent 44%, #000 78%);
 }
+
+/* ---------- 页面切换过渡（纯 CSS，零 JS） ----------
+   跨文档 View Transition：浏览器在两次页面加载之间做一次淡入淡出。
+   不支持该特性的浏览器 = 普通跳转，不会坏。 */
+@view-transition { navigation: auto; }
+
+/* 页头保持不动，只有内容区做过渡（避免整页闪一下） */
+.site-head { view-transition-name: site-head; }
+
+@keyframes vt-fade-in {
+  from { opacity: 0; transform: translateY(3px); }
+}
+@keyframes vt-fade-out {
+  to { opacity: 0; }
+}
+
+::view-transition-old(root) {
+  animation: vt-fade-out 140ms ease both;
+}
+::view-transition-new(root) {
+  animation: vt-fade-in 220ms ease both;
+}
+/* 页头不参与淡入淡出 */
+::view-transition-old(site-head),
+::view-transition-new(site-head) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+}
