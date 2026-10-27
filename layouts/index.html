@@ -8,21 +8,23 @@
   {{ $large := .Resize "2000x webp q80" }}
   {{ $small := .Resize "1000x webp q76" }}
   <section class="masthead">
-    <img
-      src="{{ $large.RelPermalink }}"
-      srcset="{{ $small.RelPermalink }} 1000w, {{ $large.RelPermalink }} 2000w"
-      sizes="100vw"
-      alt=""
-      width="{{ $large.Width }}" height="{{ $large.Height }}"
-      fetchpriority="high" decoding="async">
-    <img
-      class="masthead-blur"
-      src="{{ $large.RelPermalink }}"
-      srcset="{{ $small.RelPermalink }} 1000w, {{ $large.RelPermalink }} 2000w"
-      sizes="100vw"
-      alt="" aria-hidden="true"
-      width="{{ $large.Width }}" height="{{ $large.Height }}"
-      decoding="async">
+    <div class="masthead-media">
+      <img
+        src="{{ $large.RelPermalink }}"
+        srcset="{{ $small.RelPermalink }} 1000w, {{ $large.RelPermalink }} 2000w"
+        sizes="100vw"
+        alt=""
+        width="{{ $large.Width }}" height="{{ $large.Height }}"
+        fetchpriority="high" decoding="async">
+      <img
+        class="masthead-blur"
+        src="{{ $large.RelPermalink }}"
+        srcset="{{ $small.RelPermalink }} 1000w, {{ $large.RelPermalink }} 2000w"
+        sizes="100vw"
+        alt="" aria-hidden="true"
+        width="{{ $large.Width }}" height="{{ $large.Height }}"
+        decoding="async">
+    </div>
     <div class="masthead-text">
       <div class="wrap">
         <span class="kicker">RECORDS</span>

@@ -4,6 +4,21 @@
 (function () {
   'use strict';
 
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- 动效开关 ----------
+     哪一条不顺眼，把对应值改成 false 即可（不用删代码）。
+     注意：报头入场 / 滚动显影的 CSS 半边由 <html class="js-motion">
+     统一关闭（head.html 里那行首屏脚本），这里只管 JS 这一半。 */
+  var MOTION = {
+    masthead: true,     // 报头入场 + 滚动视差
+    stickyHead: true,   // 页头吸附 + 毛玻璃
+    reveal: true,       // 相册 / 列表滚动显影
+    progress: true,     // 文章页阅读进度线
+    zoomLightbox: true  // 灯箱从缩略图放大开合
+  };
+  function motion(flag) { return !!MOTION[flag] && !reduce; }
+
   /* ---------- 主题切换：从按钮扩散的圆形揭示（View Transition） ---------- */
   function applyTheme(next) {
     document.documentElement.setAttribute('data-theme', next);
@@ -37,6 +52,96 @@
       root.classList.remove('theme-vt');
     });
   });
+
+  /* ---------- 滚动效果：一条 rAF 循环，先读完再写 ---------- */
+  var scrollQueued = false;
+  function onScroll() {
+    if (scrollQueued) return;
+    scrollQueued = true;
+    requestAnimationFrame(applyScroll);
+  }
+  function applyScroll() {
+    scrollQueued = false;
+    var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+
+    /* ---- 读 ---- */
+    var mast = motion('masthead') ? document.querySelector('.masthead') : null;
+    var mastP = 0;
+    if (mast) {
+      var mr = mast.getBoundingClientRect();
+      mastP = Math.min(Math.max(-mr.top / ((mr.height || 1) * 0.85), 0), 1);
+    }
+    var post = motion('progress') ? document.querySelector('.post') : null;
+    var postP = 0;
+    if (post) {
+      var pr = post.getBoundingClientRect();
+      var total = pr.height - window.innerHeight;
+      postP = total > 8 ? Math.min(Math.max(-pr.top / total, 0), 1) : 0;
+    }
+    var head = motion('stickyHead') ? document.querySelector('.site-head') : null;
+
+    /* ---- 写 ---- */
+    if (mast) {
+      var media = mast.querySelector('.masthead-media');
+      var text = mast.querySelector('.masthead-text');
+      if (media) media.style.setProperty('--mast-scale', (1 + mastP * 0.055).toFixed(4));
+      if (text) {
+        text.style.setProperty('--mast-text-y', (-mastP * 34).toFixed(1) + 'px');
+        text.style.setProperty('--mast-text-o', (1 - mastP * 0.9).toFixed(3));
+      }
+    }
+    if (head) head.classList.toggle('is-stuck', y > 6);
+    if (post) paintProgress(postP);
+  }
+
+  /* ---------- 文章页阅读进度线 ---------- */
+  var readBar = null;
+  function ensureProgressBar() {
+    if (!motion('progress') || !document.querySelector('.post')) {
+      if (readBar && readBar.parentNode) readBar.parentNode.removeChild(readBar);
+      readBar = null;
+      return;
+    }
+    if (readBar && readBar.parentNode) return;
+    readBar = document.createElement('div');
+    readBar.className = 'read-progress';
+    readBar.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(readBar);
+  }
+  function paintProgress(p) {
+    if (!readBar) return;
+    readBar.style.setProperty('--rp', p.toFixed(4));
+    readBar.classList.toggle('is-on', p > 0.004 && p < 0.997);
+  }
+
+  /* ---------- 滚动显影（IntersectionObserver；无 JS 时完全不动） ---------- */
+  var io = null;
+  function initReveal() {
+    if (io) { io.disconnect(); io = null; }
+    if (!motion('reveal') || !('IntersectionObserver' in window)) return;
+    var nodes = document.querySelectorAll('.gallery .plate, .index-row, .archive-row');
+    if (!nodes.length) return;
+
+    io = new IntersectionObserver(function (list) {
+      for (var i = 0; i < list.length; i++) {
+        if (!list[i].isIntersecting) continue;
+        list[i].target.classList.add('is-in');
+        io.unobserve(list[i].target);
+      }
+    }, { rootMargin: '0px 0px -6% 0px', threshold: 0.01 });
+
+    Array.prototype.forEach.call(nodes, function (el) {
+      if (el.classList.contains('is-in')) return;
+      el.classList.add('reveal');
+      // 相册是 CSS 分栏排的，DOM 顺序 ≠ 视觉顺序 → 不排延迟；
+      // 单列列表按行号错峰，最多 8 档
+      if (!el.closest('.gallery')) {
+        var i = Array.prototype.indexOf.call(el.parentNode.children, el);
+        el.style.setProperty('--i', String(Math.min(i, 8)));
+      }
+      io.observe(el);
+    });
+  }
 
   /* ---------- 代码块复制按钮（幂等） ---------- */
   function addCopyButtons() {
@@ -120,9 +225,15 @@
   function enhance() {
     addCopyButtons();
     initLightbox();
+    ensureProgressBar();
+    initReveal();
+    onScroll();          // 立即按当前滚动位置摆好视差/吸附/进度
   }
 
   /* ---------- 启动 ---------- */
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+
   if (window.Swup) {
     var plugins = [];
     if (window.SwupPreloadPlugin) {
@@ -145,6 +256,8 @@
     swup.hooks.on('page:view', function (visit) {
       syncHead(visit);
       enhance();
+      // 滚动恢复可能发生在 page:view 之后，下一帧再对齐一次
+      requestAnimationFrame(onScroll);
     });
     window.__swup = swup;
   }

@@ -4,11 +4,15 @@
 <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ site.Params.intro }}{{ end }}">
 <link rel="canonical" href="{{ .Permalink }}">
 <script>
-  // 首屏前应用已保存的主题，避免闪白
+  // 首屏前应用已保存的主题，避免闪白；
+  // 同时标记「允许动效」（减弱动效的用户不加，CSS 入场动画整组关闭）
   (function () {
     try {
       var t = localStorage.getItem('theme');
       if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+      if (!window.matchMedia || !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('js-motion');
+      }
     } catch (e) {}
   })();
 </script>

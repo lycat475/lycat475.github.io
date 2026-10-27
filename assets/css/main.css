@@ -102,7 +102,15 @@ a { color: inherit; }
   overflow: hidden;
   background: #1a1614;
 }
+/* 视差层：JS 只写 --mast-scale（1 → 1.055），只放大不留边（放大不会露底） */
+.masthead-media {
+  position: absolute; inset: 0;
+  z-index: 0;
+  transform: scale(var(--mast-scale, 1));
+  transform-origin: 50% 42%;
+}
 .masthead img {
+  position: absolute; top: 0; left: 0;
   width: 100%; height: 100%;
   object-fit: cover;
   object-position: 50% 42%;
@@ -124,6 +132,9 @@ a { color: inherit; }
   position: absolute; left: 0; right: 0;
   bottom: clamp(1.3rem, 3.6vh, 2.4rem);
   z-index: 1;
+  /* 滚动时文字上浮并淡出；变量由 site.js 写 */
+  transform: translate3d(0, var(--mast-text-y, 0px), 0);
+  opacity: var(--mast-text-o, 1);
 }
 .masthead-text .wrap { width: min(100% - 2 * var(--gutter), var(--wide)); margin: 0 auto; }
 .masthead-text h1 {
@@ -552,13 +563,12 @@ a { color: inherit; }
 
 /* ---------- 报头：下半部分虚化（文字所在区域） ---------- */
 /* 注意：必须是 .masthead img.masthead-blur，否则会被 .masthead img 的 contrast 覆盖 */
+/* 用「超出容器 4%」代替 transform: scale() 来做边缘保险，
+   这样 transform 空出来给入场动画用（两条 img 的入场必须同步） */
 .masthead img.masthead-blur {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  object-position: 50% 42%;
+  top: -4%; left: -4%;
+  width: 108%; height: 108%;
   filter: blur(10px) contrast(1.08);
-  transform: scale(1.06);
   pointer-events: none;
   -webkit-mask-image: linear-gradient(180deg, transparent 44%, #000 78%);
           mask-image: linear-gradient(180deg, transparent 44%, #000 78%);
@@ -638,3 +648,25 @@ html.theme-vt::view-transition-group(root) {
   html.theme-vt::view-transition-new(root),
   html.theme-vt::view-transition-old(root) { animation: none; }
 }
+
+/* ---------- 动效 A：报头入场 + 标题分层揭示 ----------
+   html.js-motion 由 head.html 里的首屏脚本加（减弱动效的用户不加）。
+   入场只做 transform / opacity，滚动视差由 site.js 写 --mast-scale 等变量。 */
+@keyframes mast-in {
+  from { opacity: 0; transform: scale(1.055); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes mast-text-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+html.js-motion .masthead img {
+  animation: mast-in .95s cubic-bezier(.22, 1, .36, 1) both;
+}
+html.js-motion .masthead-text > .wrap > * {
+  animation: mast-text-in .72s cubic-bezier(.22, 1, .36, 1) both;
+}
+html.js-motion .masthead-text > .wrap > :nth-child(1) { animation-delay: .20s; }
+html.js-motion .masthead-text > .wrap > :nth-child(2) { animation-delay: .28s; }
+html.js-motion .masthead-text > .wrap > :nth-child(3) { animation-delay: .36s; }
+html.js-motion .masthead-text > .wrap > :nth-child(4) { animation-delay: .44s; }
