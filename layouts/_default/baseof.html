@@ -31,7 +31,7 @@
   <div id="swup" class="transition-main">
     {{ block "masthead" . }}{{ end }}
 
-    <main id="main" class="wrap">
+    <main id="main" class="wrap"{{ if $wide }} data-wide="1"{{ end }}>
       {{ block "main" . }}{{ end }}
     </main>
   </div>

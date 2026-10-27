@@ -298,7 +298,18 @@
     }
   }
 
+  /* 宽窄版式跟着换页走：模板里首页/相册是宽栏（body.wide），文章/关于是窄栏。
+     swup 只替换 #swup 里面的内容，不会更新 <body> 的属性，所以从首页点进文章
+     还是宽栏，一刷新才变窄（反过来，文章点相册会被挤窄）。标记放在 main[data-wide]
+     —— 它是被替换的内容的一部分，换完读一眼就知道该宽还是该窄。 */
+  function syncBodyClass() {
+    var main = document.getElementById('main');
+    document.body.classList.toggle('wide', !!(main && main.hasAttribute('data-wide')));
+  }
+  document.addEventListener('swup:content:replace', syncBodyClass);
+
   function enhance() {
+    syncBodyClass();
     addCopyButtons();
     initLightbox();
     ensureHeadGlass();
