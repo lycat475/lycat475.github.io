@@ -1,0 +1,14 @@
+{{/* 首页底部：重虚化的照片带（装饰，不可交互）。用 120px 微缩图 + CSS blur，避免下载原图。 */}}
+{{ $gallery := site.GetPage "/gallery" }}
+{{ with $gallery }}
+  {{ $imgs := .Resources.ByType "image" }}
+  {{ $band := first 6 (after 2 $imgs) }}
+  {{ if $band }}
+  <section class="photo-band" aria-hidden="true">
+    {{ range $band }}
+      {{ $t := .Resize "120x q55" }}
+      <img src="{{ $t.RelPermalink }}" alt="" width="120" height="120" loading="lazy" decoding="async">
+    {{ end }}
+  </section>
+  {{ end }}
+{{ end }}

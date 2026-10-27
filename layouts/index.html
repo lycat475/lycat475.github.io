@@ -58,17 +58,21 @@
   </ol>
 </section>
 
-{{ with $imgs }}
+{{ with $gallery }}
 <section class="block">
   <div class="label-row">
     <h2 class="label">相册</h2>
-    <a class="label-link" href="{{ "/gallery/" | relURL }}">全部 {{ len . }} 张 →</a>
+    <a class="label-link" href="{{ "/gallery/" | relURL }}">全部 {{ len (.Resources.ByType "image") }} 张 →</a>
   </div>
-  <div class="plates plates-home">
-    {{ range $i, $img := first 6 . }}
-      {{ partial "figure.html" (dict "res" $img "n" $i "sizes" "(max-width: 620px) 46vw, 320px" "width" 640) }}
-    {{ end }}
-  </div>
+  {{ with .Resources.GetMatch "p02.*" }}
+    {{ $hero := .Resize "1600x webp q84" }}
+    <a class="home-photo" href="{{ "/gallery/" | relURL }}">
+      <img src="{{ $hero.RelPermalink }}" alt=""
+           width="{{ $hero.Width }}" height="{{ $hero.Height }}" loading="lazy" decoding="async">
+    </a>
+  {{ end }}
 </section>
 {{ end }}
 {{ end }}
+
+{{ define "prefooter" }}{{ partial "photo-band.html" . }}{{ end }}

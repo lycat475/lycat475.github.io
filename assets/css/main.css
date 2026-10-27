@@ -521,3 +521,39 @@ a { color: inherit; }
   .gallery .plate { margin-bottom: .7rem; }
   .gallery .plate figcaption { font-size: .6rem; }
 }
+
+/* ---------- 首页：单张相册照 ---------- */
+.home-photo { display: block; overflow: hidden; }
+.home-photo img {
+  width: 100%; height: auto; display: block;
+  border: 1px solid var(--rule-soft);
+  transition: filter .3s ease;
+}
+.home-photo:hover img { filter: brightness(.96); }
+
+/* ---------- 首页底部：重虚化照片带 ---------- */
+.photo-band {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0;
+  height: clamp(110px, 17vw, 210px);
+  overflow: hidden;
+  position: relative;
+  margin-top: 4rem;
+}
+.photo-band img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: blur(28px) saturate(1.1);
+  transform: scale(1.25);
+  will-change: transform;
+}
+/* 上下渐隐到纸色，避免硬边 */
+.photo-band::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg,
+    var(--paper) 0%, rgba(0,0,0,0) 30%,
+    rgba(0,0,0,0) 62%, var(--paper) 100%);
+  pointer-events: none;
+}
