@@ -68,6 +68,9 @@ a { color: inherit; }
 .skip { position: absolute; left: -9999px; }
 .skip:focus { left: 1rem; top: 1rem; background: var(--paper); padding: .5rem 1rem; z-index: 1000; }
 
+/* 吸附页头高度由 site.js 写进 --head-h；锚点/跳到正文时留出这段距离，不然标题正好被页头盖住 */
+html { scroll-padding-top: calc(var(--head-h, 5rem) + .9rem); }
+
 /* ---------- 头部（滚动后吸附 + 毛玻璃，见「动效 B」） ---------- */
 .site-head {
   position: sticky;
@@ -127,6 +130,16 @@ a { color: inherit; }
 .site-nav a:hover::after,
 .site-nav a[aria-current]::after { transform: scaleX(1); }
 .site-nav a[aria-current] { color: var(--ink); }
+
+/* 栏目名不许在词内断行（320px 宽时「归档」曾被拆成上下两个字）；
+   品牌名保持可换行——字号放到 200% 时它能折成两行，而不是被裁掉 */
+.site-nav a { white-space: nowrap; }
+/* 极窄屏：品牌一行、栏目一行，别挤成竖排 */
+@media (max-width: 380px) {
+  .site-head { flex-wrap: wrap; row-gap: .45rem; }
+  .site-nav { width: 100%; }
+  .site-nav .theme-toggle { margin-left: auto; }
+}
 
 /* ---------- 报头：满幅大图 + 压字 ---------- */
 .masthead {
@@ -678,6 +691,7 @@ html.theme-vt::view-transition-new(root) {
 html.theme-vt::view-transition-group(root) {
   animation: none;
 }
+
 
 @media (prefers-reduced-motion: reduce) {
   html.theme-vt::view-transition-new(root),

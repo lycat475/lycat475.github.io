@@ -27,7 +27,16 @@
   }
 
   document.addEventListener('click', function (e) {
-    var btn = e.target.closest('.theme-toggle');
+    var btn = e.target.closest ? e.target.closest('.theme-toggle') : null;
+    // 圆形揭示的过渡快照层会吃掉点击（第二次点时 e.target 变成 <html>，CSS 的
+    // pointer-events 也管不到它）：坐标落在按钮上就照常切换，连点不会丢一次。
+    if (!btn && e.target === document.documentElement && document.documentElement.classList.contains('theme-vt')) {
+      var t = document.querySelector('.theme-toggle');
+      if (t) {
+        var br = t.getBoundingClientRect();
+        if (e.clientX >= br.left && e.clientX <= br.right && e.clientY >= br.top && e.clientY <= br.bottom) btn = t;
+      }
+    }
     if (!btn) return;
     var root = document.documentElement;
     var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
@@ -70,7 +79,9 @@
     var mastP = 0;
     if (mast) {
       var mr = mast.getBoundingClientRect();
-      mastP = Math.min(Math.max(-mr.top / ((mr.height || 1) * 0.85), 0), 1);
+      // 用「已经滚过的距离 / 报头高度」，不是「报头离开视口的距离」：
+      // 首页很短（1440×900 只能滚 78px，正好等于页头高），按后者算永远是 0，视差等于没开。
+      mastP = Math.min(Math.max(y / ((mr.height || 1) * 0.62), 0), 1);
     }
     var post = motion('progress') ? document.querySelector('.post') : null;
     var postP = 0;
@@ -115,6 +126,20 @@
       document.body.appendChild(headGlass);
     }
     headGlass.style.height = Math.round(head.getBoundingClientRect().height) + 'px';
+    // 页头高度也写给 CSS：锚点跳转 / 跳到正文时的 scroll-padding-top 用它，别让吸附页头盖住目标
+    document.documentElement.style.setProperty('--head-h', Math.round(head.getBoundingClientRect().height) + 'px');
+  }
+
+  /* 页头自己变高变矮（窄屏换行、浏览器字号放大、字体加载完）时也跟着重量一次，
+     只靠 window resize 会漏掉这些情况，玻璃条就会比页头短一截 */
+  var headRO = null;
+  function watchHead() {
+    if (!window.ResizeObserver) return;
+    var head = document.querySelector('.site-head');
+    if (headRO) headRO.disconnect();
+    if (!head) { headRO = null; return; }
+    headRO = new ResizeObserver(function () { ensureHeadGlass(); });
+    headRO.observe(head);
   }
 
   /* ---------- 文章页阅读进度线 ---------- */
@@ -277,6 +302,7 @@
     addCopyButtons();
     initLightbox();
     ensureHeadGlass();
+    watchHead();
     ensureProgressBar();
     initReveal();
     initImageFade();
