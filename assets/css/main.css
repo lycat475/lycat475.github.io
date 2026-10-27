@@ -272,7 +272,9 @@ a { color: inherit; }
 .plate-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .plate img {
   width: 100%; height: auto; display: block;
-  aspect-ratio: 4 / 3; object-fit: cover;
+  /* 不写死比例：<img> 的 width/height 属性会给出比例，
+     图片没加载完也先占好位置（否则瀑布流会先塌成 0 高，还会让显影判错） */
+  object-fit: cover;
   border: 1px solid var(--rule-soft);
   transition: filter .25s ease;
 }
@@ -539,8 +541,7 @@ a { color: inherit; }
   margin: 0 0 1.4rem;
 }
 .gallery .plate img {
-  aspect-ratio: auto;             /* 保留原始比例 */
-  height: auto;
+  height: auto;                   /* 保留原始比例（比例来自 width/height 属性） */
   object-fit: fill;
 }
 .gallery .plate figcaption { display: none; }   /* 分栏后编号会乱跳，隐藏 */
@@ -691,3 +692,38 @@ html.js-motion .masthead-text > .wrap > :nth-child(1) { animation-delay: .20s; }
 html.js-motion .masthead-text > .wrap > :nth-child(2) { animation-delay: .28s; }
 html.js-motion .masthead-text > .wrap > :nth-child(3) { animation-delay: .36s; }
 html.js-motion .masthead-text > .wrap > :nth-child(4) { animation-delay: .44s; }
+
+/* ---------- 动效 C：滚动显影 + 相册悬停推近 ----------
+   显影类由 site.js 的 IntersectionObserver 加；没 JS 时这些元素完全不动，
+   也就是说内容永远可见（动画只是增强，不承担可见性）。 */
+html.js-motion .reveal {
+  opacity: 0;
+  transform: translateY(14px) scale(.995);
+  transition:
+    opacity .62s cubic-bezier(.22, 1, .36, 1),
+    transform .62s cubic-bezier(.22, 1, .36, 1);
+  transition-delay: calc(var(--i, 0) * 42ms);
+}
+html.js-motion .reveal.is-in { opacity: 1; transform: none; }
+
+.gallery .plate-link img { transition: transform .65s cubic-bezier(.22, 1, .36, 1), filter .3s ease; }
+@media (hover: hover) {
+  .gallery .plate-link:hover img { transform: scale(1.028); }
+}
+
+/* ---------- 阅读进度：顶部一根 2px 红线（文章页） ---------- */
+.read-progress {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 2px;
+  z-index: 8000;
+  pointer-events: none;
+  background: var(--accent);
+  transform: scaleX(var(--rp, 0));
+  transform-origin: 0 50%;
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+.read-progress.is-on { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .read-progress { display: none; }
+}

@@ -222,7 +222,8 @@
         children: 'a.plate-link',
         pswpModule: function () { return import('/vendor/photoswipe.esm.js'); },
         bgOpacity: 0.97,
-        showHideAnimationType: 'fade',
+        // 从缩略图位置放大展开 / 收回（减弱动效时退回淡入）
+        showHideAnimationType: motion('zoomLightbox') ? 'zoom' : 'fade',
         loop: true
       });
       lightbox.init();
