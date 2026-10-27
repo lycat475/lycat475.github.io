@@ -28,7 +28,7 @@ disableKinds = ['taxonomy', 'term']
 
 [markup.highlight]
   style = 'solarized-light'
-  noClasses = true
+  noClasses = false
   lineNos = false
 
 [[menus.main]]

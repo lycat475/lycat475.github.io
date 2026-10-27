@@ -12,5 +12,7 @@
 {{ if eq .Section "gallery" }}
 <link rel="stylesheet" href="{{ "vendor/photoswipe.css" | relURL }}">
 {{ end }}
-{{ $css := resources.Get "css/main.css" | minify | fingerprint }}
+{{/* chroma 在前、main 在后：main 的覆盖优先 */}}
+{{ $chroma := resources.Get "css/chroma.css" }}
+{{ $css := slice $chroma (resources.Get "css/main.css") | resources.Concat "css/bundle.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">

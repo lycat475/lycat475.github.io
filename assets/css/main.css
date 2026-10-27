@@ -317,9 +317,9 @@ a { color: inherit; }
   padding: .1em .34em;
   border-radius: 2px;
 }
-/* Chroma 以 noClasses 方式写内联底色，只能在此覆盖回纸色 */
+/* Chroma 走 class（noClasses=false），底色由这里统一成纸色 */
 .prose pre {
-  background: var(--paper-2) !important;
+  background: var(--paper-2);
   border: 1px solid var(--rule);
   padding: 1rem 1.1rem;
   overflow-x: auto;
@@ -328,7 +328,6 @@ a { color: inherit; }
   border-radius: 2px;
 }
 .prose pre code { background: none; padding: 0; font-size: inherit; }
-.prose pre code span { background: transparent !important; }
 .prose table { border-collapse: collapse; width: 100%; font-size: .88rem; }
 .prose th, .prose td { border-bottom: 1px solid var(--rule); padding: .45rem .6rem; text-align: left; }
 .prose thead th { border-top: 1px solid var(--rule); background: var(--paper-2); font-weight: 600; }
@@ -452,3 +451,17 @@ a { color: inherit; }
 /* 灯箱：暖黑底，和纸色调性一致 */
 .pswp__bg { background: #14110f; }
 .pswp__counter, .pswp__button { opacity: .85; }
+
+/* 代码块复制按钮 */
+.highlight { position: relative; }
+.copy-btn {
+  position: absolute; top: .45rem; right: .45rem;
+  font-family: var(--mono); font-size: .66rem; letter-spacing: .08em;
+  color: var(--ink-soft); background: var(--paper);
+  border: 1px solid var(--rule); border-radius: 2px;
+  padding: .22rem .5rem; cursor: pointer;
+  opacity: 0; transition: opacity .15s ease, color .15s ease, border-color .15s ease;
+}
+.highlight:hover .copy-btn, .copy-btn:focus-visible, .copy-btn:disabled { opacity: 1; }
+.copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+@media (hover: none) { .copy-btn { opacity: 1; } }

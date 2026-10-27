@@ -26,4 +26,6 @@
   {{ with .NextInSection }}<a class="post-nav-next" href="{{ .RelPermalink }}"><span class="muted">下一篇 →</span><span>{{ .Title }}</span></a>{{ end }}
 </nav>
 {{ end }}
+
+{{ partial "copy-code.html" . }}
 {{ end }}
