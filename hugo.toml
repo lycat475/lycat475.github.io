@@ -1,5 +1,5 @@
-baseURL = 'https://lycat475-github-io.pages.dev/'
-title = 'lycat-build with 475'
+baseURL = 'https://lycat475.pages.dev/'
+title = 'lycat475 的 blog'
 defaultContentLanguage = 'zh'
 disableKinds = ['taxonomy', 'term']
 
