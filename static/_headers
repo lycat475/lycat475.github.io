@@ -1,0 +1,8 @@
+/admin/index.html
+  Cache-Control: no-cache
+
+/admin/sveltia-cms.js
+  Cache-Control: no-cache
+
+/admin/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
