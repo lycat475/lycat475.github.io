@@ -6,7 +6,8 @@
 {{ $ogDesc := or .Description site.Params.intro }}
 {{ $ogTitle := cond .IsHome site.Title (printf "%s · %s" .Title site.Title) }}
 {{ $brand := partial "brand.html" . }}
-{{ $ogImage := cond (eq $brand "peng") "og-card-peng.jpg" "og-card.jpg" | absURL }}
+{{ $ogName := cond (eq $brand "peng") "og-card-peng.jpg" "og-card.jpg" }}
+{{ $ogImage := printf "%s?v=%s" ($ogName | absURL) (partial "asset-v.html" $ogName) }}
 <meta property="og:type" content="{{ cond .IsPage "article" "website" }}">
 <meta property="og:site_name" content="{{ site.Title }}">
 <meta property="og:title" content="{{ $ogTitle }}">
@@ -41,9 +42,9 @@
 {{ $favico := cond (eq $brand "peng") "peng-favicon.ico" "favicon.ico" }}
 {{ $favpng := cond (eq $brand "peng") "peng-favicon-32.png" "favicon-32.png" }}
 {{ $favtouch := cond (eq $brand "peng") "peng-apple-touch-icon.png" "apple-touch-icon.png" }}
-<link rel="icon" href="{{ $favico | relURL }}" sizes="16x16 32x32 48x48">
-<link rel="icon" href="{{ $favpng | relURL }}" type="image/png" sizes="32x32">
-<link rel="apple-touch-icon" href="{{ $favtouch | relURL }}">
+<link rel="icon" href="{{ $favico | relURL }}?v={{ partial "asset-v.html" $favico }}" sizes="16x16 32x32 48x48">
+<link rel="icon" href="{{ $favpng | relURL }}?v={{ partial "asset-v.html" $favpng }}" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="{{ $favtouch | relURL }}?v={{ partial "asset-v.html" $favtouch }}">
 {{ with site.Home.OutputFormats.Get "rss" }}
 <link rel="alternate" type="application/rss+xml" href="{{ .Permalink }}" title="{{ site.Title }}">
 {{ end }}

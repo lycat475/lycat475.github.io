@@ -13,7 +13,7 @@
 </div>
 {{ else }}
 <div class="slot-empty">
-  <img class="mark mark-lg" src="{{ "peng.png" | relURL }}" alt="" width="64" height="64">
+  <img class="mark mark-lg" src="{{ printf "%s?v=%s" ("peng.png" | relURL) (partial "asset-v.html" "peng.png") }}" alt="" width="64" height="64">
   <p class="muted meow">空空如也喵</p>
 </div>
 {{ end }}

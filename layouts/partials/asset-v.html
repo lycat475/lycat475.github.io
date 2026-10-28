@@ -1,0 +1,5 @@
+{{/* 静态资源版本号：返回 static/<name> 内容哈希前 8 位，用于给 favicon / 标记图加 ?v= 破除缓存。
+   用内容哈希而不是 mtime：每次部署的 mtime 都会变，会让缓存永久失效。 */}}
+{{ $v := "1" }}
+{{ with os.ReadFile (printf "static/%s" .) }}{{ $v = substr (md5 .) 0 8 }}{{ end }}
+{{ return $v }}

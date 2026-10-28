@@ -1,7 +1,7 @@
 {{ define "main" }}
 <div class="notfound">
   <p class="code">404</p>
-  <img class="mark mark-lg" src="{{ "peng.png" | relURL }}" alt="" width="64" height="64">
+  <img class="mark mark-lg" src="{{ printf "%s?v=%s" ("peng.png" | relURL) (partial "asset-v.html" "peng.png") }}" alt="" width="64" height="64">
   <p class="meow">泥走错路了喵</p>
   <p class="muted meow">这里什么都没有喵</p>
   <p><a href="{{ "/" | relURL }}">回首页</a></p>

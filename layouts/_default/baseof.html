@@ -8,7 +8,7 @@
 {{ if site.Params.holding }}
 <body class="holding-body">
   <div class="holding">
-    <img class="mark mark-lg" src="{{ "peng.png" | relURL }}" alt="" width="64" height="64">
+    <img class="mark mark-lg" src="{{ printf "%s?v=%s" ("peng.png" | relURL) (partial "asset-v.html" "peng.png") }}" alt="" width="64" height="64">
     <h1 class="meow">{{ site.Params.holdingTitle }}</h1>
     <p class="muted meow">{{ site.Params.holdingNote }}</p>
   </div>
