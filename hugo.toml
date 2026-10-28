@@ -1,4 +1,4 @@
-baseURL = 'https://lycat475.pages.dev/'
+baseURL = 'https://lycat475.com/'
 title = 'lycat475 的 blog'
 defaultContentLanguage = 'zh'
 disableKinds = ['taxonomy', 'term']

@@ -1,0 +1,6 @@
+{{/* 品牌标记：正文或标题里出现「喵」的页面沿用企鹅，其余页面换成鹿 */}}
+{{ $brand := "deer" }}
+{{ if eq .Kind "404" }}{{ $brand = "peng" }}{{ end }}
+{{ $hay := printf "%s %s %s" (string .Title) (string .Description) (string .Content) }}
+{{ if strings.Contains $hay "喵" }}{{ $brand = "peng" }}{{ end }}
+{{ return $brand }}

@@ -1,4 +1,5 @@
+{{ $brand := partial "brand.html" . }}
 <div class="sign">
-  <img class="mark" src="{{ "peng-sign.png" | relURL }}" alt="" width="26" height="26">
+  <img class="mark" src="{{ printf "%s-sign.png" $brand | relURL }}" alt="" width="26" height="26">
   <span class="sign-note">{{ site.Params.signNote }}</span>
 </div>

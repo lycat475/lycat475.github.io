@@ -5,7 +5,8 @@
 {{/* Open Graph / Twitter 卡片：分享到微信、TG、X 时用的预览 */}}
 {{ $ogDesc := or .Description site.Params.intro }}
 {{ $ogTitle := cond .IsHome site.Title (printf "%s · %s" .Title site.Title) }}
-{{ $ogImage := "og-card.jpg" | absURL }}
+{{ $brand := partial "brand.html" . }}
+{{ $ogImage := cond (eq $brand "peng") "og-card-peng.jpg" "og-card.jpg" | absURL }}
 <meta property="og:type" content="{{ cond .IsPage "article" "website" }}">
 <meta property="og:site_name" content="{{ site.Title }}">
 <meta property="og:title" content="{{ $ogTitle }}">
@@ -37,9 +38,12 @@
     } catch (e) {}
   })();
 </script>
-<link rel="icon" href="{{ "favicon.ico" | relURL }}" sizes="16x16 32x32 48x48">
-<link rel="icon" href="{{ "favicon-32.png" | relURL }}" type="image/png" sizes="32x32">
-<link rel="apple-touch-icon" href="{{ "apple-touch-icon.png" | relURL }}">
+{{ $favico := cond (eq $brand "peng") "peng-favicon.ico" "favicon.ico" }}
+{{ $favpng := cond (eq $brand "peng") "peng-favicon-32.png" "favicon-32.png" }}
+{{ $favtouch := cond (eq $brand "peng") "peng-apple-touch-icon.png" "apple-touch-icon.png" }}
+<link rel="icon" href="{{ $favico | relURL }}" sizes="16x16 32x32 48x48">
+<link rel="icon" href="{{ $favpng | relURL }}" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="{{ $favtouch | relURL }}">
 {{ with site.Home.OutputFormats.Get "rss" }}
 <link rel="alternate" type="application/rss+xml" href="{{ .Permalink }}" title="{{ site.Title }}">
 {{ end }}
