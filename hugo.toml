@@ -1,6 +1,8 @@
 baseURL = 'https://lycat475.com/'
 title = 'lycat475 的 blog'
 defaultContentLanguage = 'zh'
+# 后台 CMS 保存的日期不带时区，按本地时区解释，否则会被当成「未来文章」不构建
+timeZone = 'Asia/Shanghai'
 disableKinds = ['taxonomy', 'term']
 
 [languages]

@@ -31,7 +31,9 @@ HUGO_CACHEDIR=$PWD/.hugo_cache ../tools/hugo/hugo.exe server --port 1313
 ../tools/hugo/hugo.exe new content/posts/标题/index.md
 ```
 
-图片放同一目录，用 `![](shot.jpg)` 引用。坑：`date` 写成未来时间，Hugo 不会构建这一页。
+图片放同一目录，用 `![](shot.jpg)` 引用。
+
+坑：`date` 写成未来时间，Hugo 不会构建这一页。后台 CMS 保存的日期不带时区，所以 `hugo.toml` 里设了 `timeZone = 'Asia/Shanghai'`，否则会被当成 UTC 而「跑到未来」。
 
 ## 相册
 
