@@ -14,7 +14,8 @@
         <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "01.02" }}</time>
         <div>
           <a class="archive-title" href="{{ .RelPermalink }}">{{ .Title }}</a>
-          {{ with .Summary }}<p class="archive-sum">{{ . | plainify | truncate 90 }}</p>{{ end }}
+          {{ $sum := or .Description (.Summary | plainify | truncate 90) }}
+          {{ with $sum }}<p class="archive-sum">{{ . | plainify | truncate 120 }}</p>{{ end }}
         </div>
       </li>
     {{ end }}
