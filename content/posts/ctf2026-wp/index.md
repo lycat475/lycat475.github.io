@@ -5,7 +5,7 @@ draft: false
 tags: []
 ---
 
-# **？CTF WP by lycat475**
+# **?CTF2026 WP by lycat475**
 
 ## WEB
 
@@ -13,7 +13,7 @@ tags: []
 
 先使用guest登录后查看cookies，找到vault_token的值；将值通过JWT解析工具解析后得到payload：
 
-```
+```plain
 {
   "sub": "guest",
   "name": "guest",
@@ -26,7 +26,7 @@ tags: []
 
 同时购买第二个功法通过base64解码后得到sign：
 
-```
+```plain
 the secret is wanjie123456
 ```
 
@@ -34,19 +34,19 @@ the secret is wanjie123456
 
 ![](assets/20261018_194946_image.png)
 
-*~~然后等一亿秒后灵石积攒到10亿后购买~~*
+_~~然后等一亿秒后灵石积攒到10亿后购买~~_
 
 由于攒的实在太慢了不可能等上三年，观察网络中tick请求发现调用app.js，rate为10
 
 在源代码中搜索rate发现
 
-```
+```plain
 rate: Number(window.treasuryConfig.incomePerSecond)
 ```
 
 搜索incomePerSecond发现
 
-```
+```plain
 window.treasuryConfig = {
   incomePerSecond: 10,
 };
@@ -54,7 +54,7 @@ window.treasuryConfig = {
 
 在控制台中修改
 
-```
+```plain
 window.treasuryConfig.incomePerSecond=1000000000
 ```
 
@@ -68,17 +68,17 @@ window.treasuryConfig.incomePerSecond=1000000000
 
 在查看元素时发现
 
-```
+```plain
 <a class="doc-link" id="doc-link" href="/docs" target="_blank" rel="noopener">运气不好？</a>
 ```
 
-访问 *环境链接*/docs 发现平台开发api文档
+访问 _环境链接_/docs 发现平台开发api文档
 
 找到接口总表 且发现读取指定格子资源为get方式
 
 ![](assets/20261018_203939_image.png)
 
-在浏览器访问 *环境链接*/api/v1/game/cells/*格子号*
+在浏览器访问 _环境链接_/api/v1/game/cells/_格子号_
 
 可获取全部图案
 
@@ -108,7 +108,7 @@ window.treasuryConfig.incomePerSecond=1000000000
 
 将后缀改为zip解压得到 flag.txt
 
-```
+```plain
 ?CTF2026_H@ve_Funn!}
 ```
 
@@ -118,7 +118,7 @@ window.treasuryConfig.incomePerSecond=1000000000
 
 两段拼起来就是完整 flag
 
-```
+```plain
 QCTF{W3lc0me_T0_?CTF2026_H@ve_Funn!}
 ```
 
@@ -128,7 +128,7 @@ frist.zip 为伪加密，用 010 Editor 把两个条目 local header 和中央�
 
 txt 的内容
 
-```
+```plain
 You are so smart ，
 flag{this_is_a_fake_flag}
 but there is a string of mysterious characters here:
@@ -154,7 +154,7 @@ for combo in itertools.product(string.ascii_lowercase + string.digits, repeat=4)
 
 跑出来密码是 qctf2026g0od，解密得到 flag
 
-```
+```plain
 ?CTF{Thi3_is_@_ez_z1p!}
 ```
 
