@@ -26,7 +26,10 @@ collections:
     summary: '{{title}}'
     fields:
       - { name: title, label: 标题 }
-      - { name: description, label: 简介（留空则自动截取正文前 90 字）, widget: text, required: false }
+      - name: description
+        label: 简介
+        widget: text
+        required: false
       - { name: date, label: 日期, widget: datetime, date_format: 'YYYY-MM-DD', time_format: 'HH:mm:ss' }
       - { name: draft, label: 草稿（打开后不会发布）, widget: boolean, default: false }
       - { name: tags, label: 标签, widget: list, required: false }
@@ -40,7 +43,6 @@ collections:
         file: content/about/index.md
         fields:
           - { name: title, label: 标题 }
-      - { name: description, label: 简介（留空则自动截取正文前 90 字）, widget: text, required: false }
           - { name: github, label: GitHub 地址, required: false }
           - { name: body, label: 正文, widget: markdown }
 
@@ -51,7 +53,6 @@ collections:
         public_folder: ''
         fields:
           - { name: title, label: 标题 }
-      - { name: description, label: 简介（留空则自动截取正文前 90 字）, widget: text, required: false }
           - { name: date, label: 日期, widget: datetime, required: false }
           - { name: wide, label: 宽版布局, widget: boolean, default: true }
           - { name: body, label: 说明, widget: markdown, required: false }
