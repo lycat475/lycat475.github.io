@@ -63,8 +63,7 @@
         <time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format "2006.01.02" }}</time>
         <div class="index-main">
           <a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a>
-          {{ $sum := or $p.Description ($p.Summary | plainify | truncate 90) }}
-          {{ with $sum }}<p class="index-sum">{{ . | plainify | truncate 120 }}</p>{{ end }}
+          {{ with $p.Description }}<p class="index-sum">{{ . | plainify | truncate 120 }}</p>{{ end }}
         </div>
       </li>
     {{ else }}
