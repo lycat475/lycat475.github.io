@@ -1,5 +1,5 @@
 ---
-title: "？CTF2026 WP"
+title: ?CTF2026 WP
 date: 2026-11-03 13:44:00+08:00
 draft: false
 tags: []
